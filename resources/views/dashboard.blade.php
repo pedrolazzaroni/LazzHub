@@ -11,6 +11,18 @@
                 <p class="mt-4 text-gray-600">
                     Você está logado no sistema.
                 </p>
+                <div class="mt-8">
+                    <h3 class="text-lg font-medium text-gray-900">O que você quer fazer?</h3>
+                    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <a href="{{ route('resumo.create') }}"
+                            class="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            Criar Resumo de Prova
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
