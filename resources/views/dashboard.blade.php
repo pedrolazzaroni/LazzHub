@@ -5,23 +5,46 @@
 @section('content')
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 bg-white border-b border-gray-200">
-                <h2 class="text-2xl font-semibold text-gray-800">Bem-vindo, {{ Auth::user()->name }}!</h2>
-                <p class="mt-4 text-gray-600">
-                    Você está logado no sistema.
-                </p>
-                <div class="mt-8">
-                    <h3 class="text-lg font-medium text-gray-900">O que você quer fazer?</h3>
-                    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <a href="{{ route('resumo.create') }}"
-                            class="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            Criar Resumo de Prova
-                        </a>
-                    </div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <!-- Card Resumo -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-800">Resumo</h2>
+                    <p class="mt-2 text-gray-600">Crie e visualize resumos de provas.</p>
+                    <a href="{{ route('resumo.create') }}" class="mt-4 inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                        Ir para Resumo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Faça uma Pergunta -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold text-gray-800">Faça uma Pergunta</h2>
+                    <p class="mt-2 text-gray-600">Pergunte sobre qualquer assunto.</p>
+                    <a href="{{ route('pergunta.create') }}" class="mt-4 inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                        Ir para Pergunta
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Em Construção 1 -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-center">
+                    <h2 class="text-lg font-semibold text-gray-800">Em Construção</h2>
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Card Em Construção 2 -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-center">
+                    <h2 class="text-lg font-semibold text-gray-800">Em Construção</h2>
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
                 </div>
             </div>
         </div>

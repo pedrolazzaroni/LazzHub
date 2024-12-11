@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PerguntaController;
 use App\Http\Controllers\ResumoController;
 
 // Rotas públicas
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
+    Route::get('/perguntas/create', [PerguntaController::class, 'create'])->name('pergunta.create');
     // Rotas para resumos
     Route::get('/resumo/criar', [ResumoController::class, 'create'])->name('resumo.create');
     Route::post('/api/generate-resume', [ResumoController::class, 'generateResume'])->name('resumo.generate');
