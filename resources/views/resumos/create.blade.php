@@ -5,14 +5,14 @@
 @section('content')
 <div class="py-12">
     <!-- Modal de Carregamento -->
-    <div id="loadingModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity hidden z-50">
+    <div id="loadingModal" class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity hidden z-50">
         <div class="fixed inset-0 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center">
                 <div class="relative bg-white p-8 rounded-lg shadow-xl transform transition-all">
                     <div class="text-center">
                         <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
                         <h3 class="text-lg font-medium leading-6 text-gray-900 mb-2">Gerando seu resumo...</h3>
-                        <p class="text-sm text-gray-500" id="loadingText">Analisando o conteúdo...</p>
+                        <p class="text-sm text-gray-600" id="loadingText">Analisando o conteúdo...</p>
                     </div>
                 </div>
             </div>
@@ -20,8 +20,8 @@
     </div>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 bg-white border-b border-gray-200">
+        <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
+            <div class="p-6 bg-gray-100 border-b border-gray-300">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-6 opacity-0 transform translate-y-4 transition-all duration-500" id="title">
                     Criar Resumo de Prova
                 </h2>
@@ -30,40 +30,40 @@
                     @csrf
 
                     <div class="opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 200ms">
-                        <label for="materia" class="block text-sm font-medium text-gray-700">Matéria</label>
+                        <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
                         <input type="text" name="materia" id="materia" required
                             maxlength="50"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        <p class="mt-1 text-sm text-gray-500">
+                        <p class="mt-1 text-sm text-gray-600">
                             <span id="materiaCount">0</span>/50 caracteres
                         </p>
                     </div>
 
                     <div class="opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 300ms">
-                        <label for="curso" class="block text-sm font-medium text-gray-700">Curso</label>
+                        <label for="curso" class="block text-sm font-medium text-gray-800">Curso</label>
                         <input type="text" name="curso" id="curso" required
                             maxlength="50"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             placeholder="Ex: Engenharia, Medicina, História...">
-                        <p class="mt-1 text-sm text-gray-500">
+                        <p class="mt-1 text-sm text-gray-600">
                             <span id="cursoCount">0</span>/50 caracteres
                         </p>
                     </div>
 
                     <div class="opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 400ms">
-                        <label for="conteudo" class="block text-sm font-medium text-gray-700">Qual é o conteúdo da prova?</label>
+                        <label for="conteudo" class="block text-sm font-medium text-gray-800">Qual é o conteúdo da prova?</label>
                         <textarea name="conteudo" id="conteudo" rows="5" required maxlength="50"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             placeholder="Ex: Revolução Industrial, Segunda Guerra Mundial, Equações do 2º grau..."></textarea>
-                        <p class="mt-1 text-sm text-gray-500">
-                            <span class="text-gray-600">Digite o tema ou assunto que será cobrado na prova</span>
+                        <p class="mt-1 text-sm text-gray-600">
+                            <span class="text-gray-700">Digite o tema ou assunto que será cobrado na prova</span>
                             <br>
                             <span id="conteudoCount">0</span>/50 caracteres
                         </p>
                     </div>
 
                     <div class="opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 600ms">
-                        <label for="nivel" class="block text-sm font-medium text-gray-700">Nível de Ensino</label>
+                        <label for="nivel" class="block text-sm font-medium text-gray-800">Nível de Ensino</label>
                         <select name="nivel" id="nivel" required
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             <option value="">Selecione um nível</option>
