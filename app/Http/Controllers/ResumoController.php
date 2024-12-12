@@ -39,6 +39,11 @@ class ResumoController extends Controller
             Log::info('Prompt gerado:', ['prompt' => $prompt]);
 
             $response = $this->geminiService->generateContent($prompt);
+
+            if (is_array($response)) {
+                $response = json_encode($response);
+            }
+
             Log::info('Resposta da API:', ['response' => $response]);
 
             // Salvar o resumo no banco de dados

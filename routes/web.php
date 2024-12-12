@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/perguntas/create', [PerguntaController::class, 'create'])->name('pergunta.create');
+    Route::post('/perguntas/ask', [PerguntaController::class, 'ask'])->name('pergunta.ask');
     // Rotas para resumos
     Route::get('/resumo/criar', [ResumoController::class, 'create'])->name('resumo.create');
     Route::post('/api/generate-resume', [ResumoController::class, 'generateResume'])->name('resumo.generate');
