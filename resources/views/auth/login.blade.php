@@ -8,14 +8,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - EstudIA</title>
+    <title>Login - LazzHub</title>
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen flex items-center justify-center">
         <div class="max-w-md w-full space-y-8 p-8">
             <div class="text-center">
-                <h1 class="text-4xl font-bold text-indigo-600 mb-2">EstudIA</h1>
+                <h1 class="text-4xl font-bold text-indigo-600 mb-2">LazzHub</h1>
                 <h2 class="text-2xl font-semibold text-gray-900">Entre na sua conta</h2>
             </div>
 

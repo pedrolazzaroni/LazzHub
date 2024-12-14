@@ -6,7 +6,7 @@
     <div class="min-h-screen flex items-center justify-center">
         <div class="max-w-md w-full space-y-8 p-8">
             <div class="text-center">
-                <h1 class="text-4xl font-bold text-indigo-600 mb-2">EstudIA</h1>
+                <h1 class="text-4xl font-bold text-indigo-600 mb-2">LazzHub</h1>
                 <h2 class="text-2xl font-semibold text-gray-900">Crie sua conta</h2>
             </div>
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pergunta;
 use Illuminate\Support\Facades\Auth;
 use App\Services\GeminiService;
+use Illuminate\Support\Facades\Log;
 
 class PerguntaController extends Controller
 {
@@ -23,37 +24,55 @@ class PerguntaController extends Controller
 
     public function ask(Request $request)
     {
-        $validated = $request->validate([
-            'pergunta' => 'required|string|max:255',
-        ]);
+        try {
+            Log::info('Recebendo requisição:', $request->all());
 
-        // Construindo o prompt para a API do Gemini
-        $prompt = "Por favor, responda a seguinte pergunta: " . $validated['pergunta'];
-
-        // Fazendo a requisição para a API do Gemini usando o GeminiService
-        $response = $this->geminiService->generateContent($prompt);
-
-        // Verifique se a resposta foi bem-sucedida
-        if ($response) {
-            // Acesse o texto da resposta corretamente
-            $content = $response['contents'][0]['parts'][0]['text'] ?? 'Resposta não disponível.';
-
-            // Armazenar a pergunta e a resposta no banco de dados
-            Pergunta::create([
-                'user_id' => Auth::id(),
-                'titulo' => $validated['pergunta'],
-                'descricao' => $content, // Armazene o texto da resposta aqui
+            $validated = $request->validate([
+                'pergunta' => 'required|string|max:255',
+                'estilo' => 'required|string',
             ]);
 
-            return view('perguntas.result', ['resultado' => $response]); // Redireciona para a nova view com o resultado
-        } else {
-            return back()->withErrors(['error' => 'Erro ao obter resposta da API.']);
+            $prompt = "Por favor, responda a seguinte pergunta: " . $validated['pergunta'] . " no estilo " . $validated['estilo'];
+            $response = $this->geminiService->generateContent($prompt);
+
+            Log::info('Resposta da API:', $response);
+
+            // Verifica se a resposta tem a estrutura esperada
+            if (isset($response['candidates'][0]['content']['parts'][0]['text'])) {
+                $content = $response['candidates'][0]['content']['parts'][0]['text'];
+
+                $pergunta = Pergunta::create([
+                    'user_id' => Auth::id(),
+                    'titulo' => $validated['pergunta'],
+                    'descricao' => $content,
+                    'estilo' => $validated['estilo'],
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'id' => $pergunta->id,
+                    'content' => $content,
+                ]);
+            }
+
+            Log::error('Estrutura da resposta inválida:', ['response' => $response]);
+            return response()->json([
+                'success' => false,
+                'error' => 'Erro ao processar resposta da API'
+            ], 500);
+
+        } catch (\Exception $e) {
+            Log::error('Erro ao processar requisição: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'error' => 'Erro interno do servidor: ' . $e->getMessage()
+            ], 500);
         }
     }
 
-    public function index()
+    public function resultado($id)
     {
-        $perguntas = Pergunta::all(); // Ou use a paginação se preferir
-        return view('perguntas.index', compact('perguntas'));
+        $pergunta = Pergunta::findOrFail($id);
+        return view('perguntas.result', ['pergunta' => $pergunta]);
     }
 }
