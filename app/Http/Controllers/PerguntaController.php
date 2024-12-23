@@ -32,7 +32,7 @@ class PerguntaController extends Controller
                 'estilo' => 'required|string',
             ]);
 
-            $prompt = "Por favor, responda a seguinte pergunta: " . $validated['pergunta'] . " no estilo " . $validated['estilo'];
+            $prompt = "Por favor, responda a seguinte pergunta: " . $validated['pergunta'] . " na sua resposta, utilize um estilo " . $validated['estilo'];
             $response = $this->geminiService->generateContent($prompt);
 
             Log::info('Resposta da API:', $response);

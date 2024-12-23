@@ -32,7 +32,7 @@ class ResumoController extends Controller
                 'materia' => 'required|string|max:50',
                 'curso' => 'required|string|max:50',
                 'nivel' => 'required|string',
-                'conteudo' => 'required|string|max:50',
+                'conteudo' => 'required|string|max:300',
             ]);
 
             $prompt = $request->input('prompt');

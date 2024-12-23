@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerguntaController;
 use App\Http\Controllers\ResumoController;
+use App\Http\Controllers\QuestaoController;
 
 // Rotas públicas
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,4 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/resumo/resultado/{id}', [ResumoController::class, 'show'])->name('resumo.show');
     Route::get('/resumos/historico', [ResumoController::class, 'historico'])->name('resumo.historico');
     Route::post('/api/resumo/save', [ResumoController::class, 'save'])->name('resumo.save');
+
+    // Rotas para questões
+    Route::get('/questoes/create', [QuestaoController::class, 'create'])->name('questoes.create');
+    Route::post('/questoes/store', [QuestaoController::class, 'store'])->name('questoes.store');
+    Route::get('/questoes/show/{id}', [QuestaoController::class, 'show'])->name('questoes.show');
 });
