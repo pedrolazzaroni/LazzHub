@@ -180,10 +180,12 @@ document.addEventListener('DOMContentLoaded', function() {
             showLoadingModal();
 
             const formData = new FormData(form);
+
             const response = await fetch(form.action, {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
                 },
                 body: formData
             });
