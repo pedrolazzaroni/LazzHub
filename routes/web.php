@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/resumos/historico', [ResumoController::class, 'historico'])->name('resumo.historico');
     Route::post('/api/resumo/save', [ResumoController::class, 'save'])->name('resumo.save');
 
-    // Rotas para questões
+    // Rotas para questões - verifique se esta rota está correta
     Route::get('/questoes/create', [QuestaoController::class, 'create'])->name('questoes.create');
     Route::post('/questoes/store', [QuestaoController::class, 'store'])->name('questoes.store');
     Route::get('/questoes/show/{id}', [QuestaoController::class, 'show'])->name('questoes.show');

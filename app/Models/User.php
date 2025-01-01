@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        // 'curso', // Adicione este campo se necessário
+        // 'materia', // Adicione este campo se necessário
     ];
 
     /**
@@ -44,5 +46,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the questoes for the user.
+     */
+    public function questoes()
+    {
+        return $this->hasMany(Questao::class);
     }
 }
