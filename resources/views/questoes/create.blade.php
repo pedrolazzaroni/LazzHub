@@ -29,10 +29,21 @@
                 <form action="{{ route('questoes.store') }}" method="POST" class="space-y-6" id="questaoForm">
                     @csrf
 
-                    <!-- Campos Quantidade e Matéria Lado a Lado -->
+                    <!-- Campos Matéria e Quantidade Lado a Lado -->
                     <div class="flex flex-col md:flex-row md:space-x-6">
+                        <!-- Campo Matéria -->
+                        <div class="w-full md:w-3/4 mb-4 md:mb-0">
+                            <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
+                            <input type="text" name="materia" id="materia" required maxlength="255"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                placeholder="Digite a matéria da questão...">
+                            <p class="mt-1 text-sm text-gray-600">
+                                <span id="materiaCount">0</span>/255 caracteres
+                            </p>
+                        </div>
+
                         <!-- Campo Quantidade de Questões -->
-                        <div class="w-full mb-4 md:mb-0">
+                        <div class="w-full md:w-1/4">
                             <label for="quantidade" class="block text-sm font-medium text-gray-800">Quantidade de Questões</label>
                             <select name="quantidade" id="quantidade" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -42,17 +53,6 @@
                             </select>
                             <p class="mt-1 text-sm text-gray-600">
                                 Selecione quantas questões deseja criar (máximo 10).
-                            </p>
-                        </div>
-
-                        <!-- Campo Matéria -->
-                        <div class="w-full">
-                            <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
-                            <input type="text" name="materia" id="materia" required maxlength="255"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                placeholder="Digite a matéria da questão...">
-                            <p class="mt-1 text-sm text-gray-600">
-                                <span id="materiaCount">0</span>/255 caracteres
                             </p>
                         </div>
                     </div>
