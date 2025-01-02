@@ -50,7 +50,7 @@
     </nav>
 
     <!-- Conteúdo principal -->
-    <main>
+    <main class="relative">
         @yield('content')
     </main>
 

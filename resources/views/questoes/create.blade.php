@@ -171,6 +171,12 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
+        // Validação adicional no front-end para o campo 'materia'
+        if (!materiaInput.value.trim()) {
+            alert('Por favor, preencha o campo Matéria.');
+            return;
+        }
+
         // Adiciona classe de loading ao botão
         const button = this.querySelector('button[type="submit"]');
         button.classList.add('opacity-75', 'cursor-not-allowed');

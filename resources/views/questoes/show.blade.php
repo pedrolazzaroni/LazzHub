@@ -14,6 +14,14 @@
             <div class="mb-4">
                 <p class="text-gray-700"><strong>Nível de Dificuldade:</strong> {{ $questao->nivel }}</p>
             </div>
+            <div class="mb-4">
+                <p class="text-gray-700"><strong>Matéria:</strong> {{ $questao->materia }}</p>
+            </div>
+            <!-- Exibir a resposta do Gemini -->
+            <div class="mb-4">
+                <p class="text-gray-700"><strong>Resposta do Gemini:</strong></p>
+                <p class="text-gray-600">{{ $questao->gemini_response }}</p>
+            </div>
             <div class="flex space-x-4">
                 <button onclick="window.print()"
                     class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
@@ -31,8 +39,10 @@
 @push('scripts')
 <script>
     function copyToClipboard() {
-        const conteudo = `Questão: ${document.querySelector('p.text-gray-600').textContent}
-Nível de Dificuldade: {{ $questao->nivel }}`;
+        const conteudo = `Questão: {{ $questao->conteudo }}
+Nível de Dificuldade: {{ $questao->nivel }}
+Matéria: {{ $questao->materia }}
+Resposta do Gemini: {{ $questao->gemini_response }}`;
 
         navigator.clipboard.writeText(conteudo).then(() => {
             alert('Questão copiada para a área de transferência!');
