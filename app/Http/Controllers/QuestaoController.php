@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Questao;
 use Illuminate\Support\Facades\Auth;
-use App\Services\GeminiService; // Assumindo que há um serviço para interagir com Gemini
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +24,7 @@ class QuestaoController extends Controller
     /**
      * Store a newly created Questao(s) in storage.
      */
-    public function store(Request $request, GeminiService $geminiService): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         // Log para verificar os dados recebidos na requisição
         \Log::info('Dados da requisição para criar Questao(s):', $request->all());
@@ -41,6 +40,7 @@ class QuestaoController extends Controller
             'materia' => 'required|string|max:255',
             'nivel' => 'required|in:Muito Fácil,Fácil,Médio,Difícil,Muito Difícil',
             'quantidade' => 'required|integer|min:1|max:10', // Validação para quantidade
+            'gemini_response' => 'required|string|max:2000', // Validar a resposta do Gemini
         ]);
 
         $quantidade = $request->quantidade;
@@ -50,29 +50,16 @@ class QuestaoController extends Controller
 
         try {
             for ($i = 0; $i < $quantidade; $i++) {
-                // Criar a Questao
+                // Criar a Questao com a resposta do Gemini
                 $questao = Questao::create([
                     'conteudo' => $request->conteudo,
                     'materia' => $request->materia,
                     'nivel' => $request->nivel,
                     'user_id' => Auth::id(),
+                    'gemini_response' => $request->gemini_response,
                 ]);
 
-                // Gerar resposta do Gemini para cada Questao
-                $geminiResponse = $geminiService->generateResponse($questao);
-
-                if ($geminiResponse) {
-                    // Garantir que a resposta seja uma string
-                    if (is_array($geminiResponse)) {
-                        $geminiResponse = json_encode($geminiResponse);
-                    }
-
-                    $questao->update([
-                        'gemini_response' => $geminiResponse,
-                    ]);
-                } else {
-                    Log::warning('GeminiService retornou resposta nula para Questao ID:', ['id' => $questao->id]);
-                }
+                \Log::info('Questao criada com ID ' . $questao->id);
 
                 $questoesCriadas[] = $questao->id;
             }
@@ -93,12 +80,20 @@ class QuestaoController extends Controller
     }
 
     /**
-     * Display the specified Questao.
+     * Display the specified Questao(s).
      */
-    public function show($id)
+    public function show($ids)
     {
-        $questao = Questao::findOrFail($id);
+        // Dividir os IDs separados por vírgula
+        $idArray = explode(',', $ids);
 
-        return view('questoes.show', compact('questao'));
+        // Buscar as Questões correspondentes
+        $questoes = Questao::whereIn('id', $idArray)->get();
+
+        if ($questoes->isEmpty()) {
+            abort(404, 'Questões não encontradas.');
+        }
+
+        return view('questoes.show', compact('questoes'));
     }
 }
