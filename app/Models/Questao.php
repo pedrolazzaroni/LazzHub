@@ -16,6 +16,8 @@ class Questao extends Model
         'nivel',
         'user_id',
         'gemini_response',
+        'tipo', // Adicionado o campo tipo
+        'resposta', // Adicionado o campo resposta
     ];
 
     /**

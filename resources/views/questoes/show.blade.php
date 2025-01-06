@@ -8,10 +8,22 @@
         @foreach($questoes as $questao)
             <div class="bg-white shadow-lg sm:rounded-lg p-6 mb-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Questão #{{ $questao->id }}</h2>
-                @if($questao->gemini_response)
+                @if($questao->gemini_response && $questao->resposta)
                     <div class="mb-4">
                         <p class="text-gray-700"><strong>Questão:</strong></p>
                         <p class="text-gray-600">{{ $questao->gemini_response }}</p>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-gray-700"><strong>Resposta:</strong></p>
+                        <p class="text-gray-600">{{ $questao->resposta }}</p>
+                    </div>
+                @elseif($questao->gemini_response)
+                    <div class="mb-4">
+                        <p class="text-gray-700"><strong>Questão:</strong></p>
+                        <p class="text-gray-600">{{ $questao->gemini_response }}</p>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-gray-700"><strong>Resposta do Gemini:</strong> <span class="text-red-500">Não disponível.</span></p>
                     </div>
                 @else
                     <div class="mb-4">

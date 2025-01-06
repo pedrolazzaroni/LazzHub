@@ -58,51 +58,46 @@ class QuestaoController extends Controller
 
         try {
             for ($i = 0; $i < $quantidade; $i++) {
-                // Passar o parâmetro 'tipo' ao chamar generatePrompt
-                $prompt = $this->generatePrompt($request->materia, $request->conteudo, $request->nivel, $request->tipo);
-                \Log::info('Prompt gerado para Gemini:', ['prompt' => $prompt]);
+                // Generate prompts separately for question and answer
+                $prompts = $this->generatePrompt($request->materia, $request->conteudo, $request->nivel, $request->tipo);
+                \Log::info('Prompts gerados:', $prompts);
 
-                $geminiResponse = $this->geminiService->generateContent($prompt);
-
-                if (!$geminiResponse) {
-                    throw new \Exception('Falha ao gerar conteúdo com a API do Gemini.');
+                // First generate the question
+                $questaoGerada = $this->geminiService->generateContent($prompts['questao']);
+                if (!$questaoGerada) {
+                    throw new \Exception('Falha ao gerar questão.');
                 }
+                \Log::info('Questão gerada:', ['questao' => $questaoGerada]);
 
-                \Log::info('Resposta formatada do Gemini:', ['response' => $geminiResponse]);
+                // Then generate the answer based on the generated question
+                $promptResposta = $this->generateAnswerPrompt($questaoGerada, $request->tipo);
+                $respostaGerada = $this->geminiService->generateContent($promptResposta);
+                if (!$respostaGerada) {
+                    throw new \Exception('Falha ao gerar resposta.');
+                }
+                \Log::info('Resposta gerada:', ['resposta' => $respostaGerada]);
 
-                // Supondo que a resposta da API Gemini retorna a questão e a resposta separadas por um delimitador, por exemplo, "\nResposta: "
-                $responseParts = explode("\nResposta: ", $geminiResponse);
-                $questaoGerada = $responseParts[0];
-                $respostaGerada = isset($responseParts[1]) ? $responseParts[1] : '';
-
-                // Criar a Questao com a resposta do Gemini
+                // Save both question and answer
                 $questao = Questao::create([
                     'conteudo' => $request->conteudo,
                     'materia' => $request->materia,
                     'nivel' => $request->nivel,
-                    'tipo' => $request->tipo, // Salvar o tipo da questão
+                    'tipo' => $request->tipo,
                     'user_id' => Auth::id(),
-                    'gemini_response' => $questaoGerada, // Salvar a questão gerada
-                    'resposta' => $respostaGerada, // Salvar a resposta gerada
+                    'gemini_response' => $questaoGerada, // Full question text
+                    'resposta' => $respostaGerada      // The correct answer
                 ]);
-
-                \Log::info('Questao criada com ID ' . $questao->id);
 
                 $questoesCriadas[] = $questao->id;
             }
 
             DB::commit();
-
-            \Log::info('Questao(s) criada(s) com IDs:', ['ids' => $questoesCriadas]);
-
             return response()->json(['ids' => $questoesCriadas], 201);
+
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Erro ao criar Questao(s):', [
-                'error' => $e->getMessage(),
-                'stack' => $e->getTraceAsString()
-            ]);
-            return response()->json(['error' => 'Não foi possível criar as questões.'], 500);
+            \Log::error('Erro ao criar questão:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Falha ao gerar questão: ' . $e->getMessage()], 500);
         }
     }
 
@@ -130,15 +125,30 @@ class QuestaoController extends Controller
     protected function generatePrompt($materia, $conteudo, $nivel, $tipo)
     {
         $tipoDescricao = $tipo === 'multipla_escolha' ? 'Múltipla Escolha' : 'Discursiva/Prática';
-        $instrucoes = $tipo === 'multipla_escolha'
-            ? "Retorne SOMENTE a pergunta e as opções de resposta."
-            : "Retorne SOMENTE a pergunta.";
 
-        // Modificação do prompt para solicitar também a resposta
-        $instrucoesResposta = $tipo === 'multipla_escolha'
-            ? "Além disso, forneça a resposta correta para a questão de múltipla escolha."
-            : "Além disso, forneça a resposta para a questão discursiva.";
+        return [
+            'questao' => "Gere uma questão de {$tipoDescricao} sobre:\n" .
+                        "Matéria: {$materia}\n" .
+                        "Conteúdo: {$conteudo}\n" .
+                        "Nível: {$nivel}\n\n" .
+                        ($tipo === 'multipla_escolha' ?
+                            "Formate com: \nPergunta\nA) opção\nB) opção\nC) opção\nD) opção\nE) opção" :
+                            "Formate somente a pergunta de forma discursiva."),
 
-        return "Crie uma questão de prova do tipo '{$tipoDescricao}' sobre o seguinte conteúdo:\n\nMatéria: {$materia}\nConteúdo: {$conteudo}\nNível de Dificuldade: {$nivel}\n\nInstruções:\n{$instrucoes}\n{$instrucoesResposta}";
+            'resposta' => "A resposta deve ser " .
+                        ($tipo === 'multipla_escolha' ?
+                            "somente a letra correta" :
+                            "uma explicação completa e detalhada.")
+        ];
+    }
+
+    protected function generateAnswerPrompt($questao, $tipo)
+    {
+        return "Para a seguinte questão:\n\n" .
+               $questao . "\n\n" .
+               "Forneça " .
+               ($tipo === 'multipla_escolha' ?
+                   "APENAS a letra da alternativa correta." :
+                   "a resposta completa e detalhada.");
     }
 }
