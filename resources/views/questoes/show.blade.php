@@ -8,19 +8,9 @@
         @foreach($questoes as $questao)
             <div class="bg-white shadow-lg sm:rounded-lg p-6 mb-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Questão #{{ $questao->id }}</h2>
-                <div class="mb-4">
-                    <p class="text-gray-700"><strong>Conteúdo:</strong></p>
-                    <p class="text-gray-600">{{ $questao->conteudo }}</p>
-                </div>
-                <div class="mb-4">
-                    <p class="text-gray-700"><strong>Nível de Dificuldade:</strong> {{ $questao->nivel }}</p>
-                </div>
-                <div class="mb-4">
-                    <p class="text-gray-700"><strong>Matéria:</strong> {{ $questao->materia }}</p>
-                </div>
                 @if($questao->gemini_response)
                     <div class="mb-4">
-                        <p class="text-gray-700"><strong>Resposta do Gemini:</strong></p>
+                        <p class="text-gray-700"><strong>Questão:</strong></p>
                         <p class="text-gray-600">{{ $questao->gemini_response }}</p>
                     </div>
                 @else
@@ -40,6 +30,14 @@
                 </div>
             </div>
         @endforeach
+
+        <!-- Botão de Criar Outra Questão -->
+        <div class="mt-6 flex justify-center">
+            <a href="{{ route('questoes.create') }}"
+                class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-white transition-all duration-300 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Criar Outra Questão
+            </a>
+        </div>
     </div>
 </div>
 
@@ -49,10 +47,7 @@
         const questao = @json($questoes->keyBy('id'));
         const selectedQuestao = questao[id];
 
-        const conteudo = `Questão: ${selectedQuestao.conteudo}
-Nível de Dificuldade: ${selectedQuestao.nivel}
-Matéria: ${selectedQuestao.materia}
-Resposta do Gemini: ${selectedQuestao.gemini_response}`;
+        const conteudo = `Questão: ${selectedQuestao.gemini_response}`;
 
         navigator.clipboard.writeText(conteudo).then(() => {
             alert('Questão copiada para a área de transferência!');

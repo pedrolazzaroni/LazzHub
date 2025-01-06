@@ -58,8 +58,8 @@ class QuestaoController extends Controller
 
         try {
             for ($i = 0; $i < $quantidade; $i++) {
-                // Gerar a resposta da questão usando o GeminiService
-                $prompt = $this->generatePrompt($request->materia, $request->conteudo, $request->nivel);
+                // Passar o parâmetro 'tipo' ao chamar generatePrompt
+                $prompt = $this->generatePrompt($request->materia, $request->conteudo, $request->nivel, $request->tipo);
                 \Log::info('Prompt gerado para Gemini:', ['prompt' => $prompt]);
 
                 $geminiResponse = $this->geminiService->generateContent($prompt);
@@ -121,8 +121,13 @@ class QuestaoController extends Controller
     /**
      * Gerar o prompt para a API do Gemini.
      */
-    protected function generatePrompt($materia, $conteudo, $nivel)
+    protected function generatePrompt($materia, $conteudo, $nivel, $tipo)
     {
-        return "Crie uma questão de prova sobre o seguinte conteúdo:\n\nMatéria: {$materia}\nConteúdo: {$conteudo}\nNível de Dificuldade: {$nivel}\n\nA questão deve ser clara, objetiva e adequada ao nível de dificuldade especificado.";
+        $tipoDescricao = $tipo === 'multipla_escolha' ? 'Múltipla Escolha' : 'Discursiva/Prática';
+        $instrucoes = $tipo === 'multipla_escolha'
+            ? "Retorne SOMENTE a pergunta e as opções de resposta."
+            : "Retorne SOMENTE a pergunta.";
+
+        return "Crie uma questão de prova do tipo '{$tipoDescricao}' sobre o seguinte conteúdo:\n\nMatéria: {$materia}\nConteúdo: {$conteudo}\nNível de Dificuldade: {$nivel}\n\n. Lembre-se de seguir as instruções:\n{$instrucoes}";
     }
 }
