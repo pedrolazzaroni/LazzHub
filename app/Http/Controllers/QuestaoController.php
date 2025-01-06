@@ -70,6 +70,11 @@ class QuestaoController extends Controller
 
                 \Log::info('Resposta formatada do Gemini:', ['response' => $geminiResponse]);
 
+                // Supondo que a resposta da API Gemini retorna a questão e a resposta separadas por um delimitador, por exemplo, "\nResposta: "
+                $responseParts = explode("\nResposta: ", $geminiResponse);
+                $questaoGerada = $responseParts[0];
+                $respostaGerada = isset($responseParts[1]) ? $responseParts[1] : '';
+
                 // Criar a Questao com a resposta do Gemini
                 $questao = Questao::create([
                     'conteudo' => $request->conteudo,
@@ -77,7 +82,8 @@ class QuestaoController extends Controller
                     'nivel' => $request->nivel,
                     'tipo' => $request->tipo, // Salvar o tipo da questão
                     'user_id' => Auth::id(),
-                    'gemini_response' => $geminiResponse, // Salvar a resposta formatada
+                    'gemini_response' => $questaoGerada, // Salvar a questão gerada
+                    'resposta' => $respostaGerada, // Salvar a resposta gerada
                 ]);
 
                 \Log::info('Questao criada com ID ' . $questao->id);
@@ -128,6 +134,11 @@ class QuestaoController extends Controller
             ? "Retorne SOMENTE a pergunta e as opções de resposta."
             : "Retorne SOMENTE a pergunta.";
 
-        return "Crie uma questão de prova do tipo '{$tipoDescricao}' sobre o seguinte conteúdo:\n\nMatéria: {$materia}\nConteúdo: {$conteudo}\nNível de Dificuldade: {$nivel}\n\n. Lembre-se de seguir as instruções:\n{$instrucoes}";
+        // Modificação do prompt para solicitar também a resposta
+        $instrucoesResposta = $tipo === 'multipla_escolha'
+            ? "Além disso, forneça a resposta correta para a questão de múltipla escolha."
+            : "Além disso, forneça a resposta para a questão discursiva.";
+
+        return "Crie uma questão de prova do tipo '{$tipoDescricao}' sobre o seguinte conteúdo:\n\nMatéria: {$materia}\nConteúdo: {$conteudo}\nNível de Dificuldade: {$nivel}\n\nInstruções:\n{$instrucoes}\n{$instrucoesResposta}";
     }
 }
