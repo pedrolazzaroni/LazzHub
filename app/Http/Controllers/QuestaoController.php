@@ -13,6 +13,9 @@ use App\Services\GeminiService;
 class QuestaoController extends Controller
 {
     protected $geminiService;
+    protected $generatedQuestions = [];  // Array to store generated questions
+    protected $correctAnswerOptions = ['A', 'B', 'C', 'D', 'E'];
+    protected $similarityThreshold = 0.7; // Threshold for similarity check (70%)
 
     public function __construct(GeminiService $geminiService)
     {
@@ -57,35 +60,60 @@ class QuestaoController extends Controller
         DB::beginTransaction();
 
         try {
+            $this->generatedQuestions = []; // Reset the array for this batch
+
             for ($i = 0; $i < $quantidade; $i++) {
-                // Generate prompts separately for question and answer
-                $prompts = $this->generatePrompt($request->materia, $request->conteudo, $request->nivel, $request->tipo);
-                \Log::info('Prompts gerados:', $prompts);
+                // Generate question and validate uniqueness
+                $attempts = 0;
+                $maxAttempts = 5; // Increased attempts for better uniqueness
 
-                // First generate the question
-                $questaoGerada = $this->geminiService->generateContent($prompts['questao']);
-                if (!$questaoGerada) {
-                    throw new \Exception('Falha ao gerar questão.');
+                do {
+                    $prompts = $this->generatePrompt(
+                        $request->materia,
+                        $request->conteudo,
+                        $request->nivel,
+                        $request->tipo,
+                        $i + 1, // Question number
+                        $quantidade // Total questions
+                    );
+
+                    $questaoGerada = $this->geminiService->generateContent($prompts['questao']);
+                    $attempts++;
+
+                    // Check for similarity with previous questions
+                    $isSimilar = $this->isQuestionSimilar($questaoGerada, $this->generatedQuestions);
+
+                    // If we've tried too many times, throw an exception
+                    if ($attempts >= $maxAttempts && $isSimilar) {
+                        throw new \Exception('Não foi possível gerar uma questão única após várias tentativas.');
+                    }
+
+                } while ($isSimilar && $attempts < $maxAttempts);
+
+                // Add to generated questions array
+                $this->generatedQuestions[] = $questaoGerada;
+
+                // Generate answer with specific instruction for multiple choice
+                $respostaGerada = $this->geminiService->generateContent($prompts['resposta']);
+
+                // For multiple choice, ensure only the letter is stored
+                if ($request->tipo === 'multipla_escolha') {
+                    $respostaGerada = $prompts['correctAnswer'];
                 }
-                \Log::info('Questão gerada:', ['questao' => $questaoGerada]);
 
-                // Then generate the answer based on the generated question
-                $promptResposta = $this->generateAnswerPrompt($questaoGerada, $request->tipo);
-                $respostaGerada = $this->geminiService->generateContent($promptResposta);
-                if (!$respostaGerada) {
-                    throw new \Exception('Falha ao gerar resposta.');
+                if (!$questaoGerada || !$respostaGerada) {
+                    throw new \Exception('Falha ao gerar questão ou resposta.');
                 }
-                \Log::info('Resposta gerada:', ['resposta' => $respostaGerada]);
 
-                // Save both question and answer
+                // Save the question
                 $questao = Questao::create([
                     'conteudo' => $request->conteudo,
                     'materia' => $request->materia,
                     'nivel' => $request->nivel,
                     'tipo' => $request->tipo,
                     'user_id' => Auth::id(),
-                    'gemini_response' => $questaoGerada, // Full question text
-                    'resposta' => $respostaGerada      // The correct answer
+                    'gemini_response' => $questaoGerada,
+                    'resposta' => $respostaGerada
                 ]);
 
                 $questoesCriadas[] = $questao->id;
@@ -122,24 +150,57 @@ class QuestaoController extends Controller
     /**
      * Gerar o prompt para a API do Gemini.
      */
-    protected function generatePrompt($materia, $conteudo, $nivel, $tipo)
+    protected function generatePrompt($materia, $conteudo, $nivel, $tipo, $questionNumber, $totalQuestions)
     {
         $tipoDescricao = $tipo === 'multipla_escolha' ? 'Múltipla Escolha' : 'Discursiva/Prática';
+        $basePrompt = "Com base nas seguintes informações:\n" .
+                     "Matéria: {$materia}\n" .
+                     "Conteúdo: {$conteudo}\n" .
+                     "Nível: {$nivel}\n" .
+                     "Questão {$questionNumber} de {$totalQuestions}\n\n";
+
+        // Randomly select the correct answer position
+        $correctAnswer = $this->correctAnswerOptions[array_rand($this->correctAnswerOptions)];
+
+        $promptQuestao = $basePrompt .
+            "Gere uma questão de {$tipoDescricao}.\n\n";
+
+        if ($tipo === 'multipla_escolha') {
+            $promptQuestao .= "A questão deve seguir EXATAMENTE este formato:\n\n" .
+                "[Enunciado da questão]\n\n" .
+                "A) [alternativa]\n" .
+                "B) [alternativa]\n" .
+                "C) [alternativa]\n" .
+                "D) [alternativa]\n" .
+                "E) [alternativa]\n\n" .
+                "IMPORTANTE: A alternativa {$correctAnswer} deve ser a correta.";
+        }
+
+        $promptResposta = $tipo === 'multipla_escolha' ?
+            "Para a questão acima, responda APENAS com a letra '{$correctAnswer}' (sem explicação adicional)." :
+            "Para a questão acima, forneça uma resposta completa e detalhada.";
 
         return [
-            'questao' => "Gere uma questão de {$tipoDescricao} sobre:\n" .
-                        "Matéria: {$materia}\n" .
-                        "Conteúdo: {$conteudo}\n" .
-                        "Nível: {$nivel}\n\n" .
-                        ($tipo === 'multipla_escolha' ?
-                            "Formate com: \nPergunta\nA) opção\nB) opção\nC) opção\nD) opção\nE) opção" :
-                            "Formate somente a pergunta de forma discursiva."),
-
-            'resposta' => "A resposta deve ser " .
-                        ($tipo === 'multipla_escolha' ?
-                            "somente a letra correta" :
-                            "uma explicação completa e detalhada.")
+            'questao' => $promptQuestao,
+            'resposta' => $promptResposta,
+            'correctAnswer' => $correctAnswer
         ];
+    }
+
+    protected function isQuestionSimilar($newQuestion, $existingQuestions)
+    {
+        foreach ($existingQuestions as $existing) {
+            similar_text(
+                strtolower($newQuestion),
+                strtolower($existing),
+                $percent
+            );
+
+            if ($percent > ($this->similarityThreshold * 100)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected function generateAnswerPrompt($questao, $tipo)
