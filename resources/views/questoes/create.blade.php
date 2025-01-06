@@ -159,42 +159,10 @@ document.addEventListener('DOMContentLoaded', function() {
         clearInterval(loadingInterval);
     }
 
-    // Função para chamar a API do Gemini via JavaScript
-    async function callGeminiAPI(conteudo, materia, nivel, userId) {
-        try {
-            // Supondo que exista um endpoint público da API do Gemini
-            const response = await fetch('https://api.gemini.com/generate', { // Substitua pela URL correta da API
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Adicione outras headers necessárias, como autenticação
-                },
-                body: JSON.stringify({ conteudo, materia, nivel, user_id: userId })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Erro ao gerar a questão com o Gemini');
-            }
-
-            const data = await response.json();
-            return data.gemini_response; // Ajuste conforme a estrutura da resposta da API
-        } catch (error) {
-            console.error('Erro ao chamar a API do Gemini:', error);
-            throw error;
-        }
-    }
-
     // Efeito de envio do formulário
     const form = document.getElementById('questaoForm');
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
-
-        // Validação adicional no front-end para o campo 'materia'
-        if (!materiaInput.value.trim()) {
-            alert('Por favor, preencha o campo Matéria.');
-            return;
-        }
 
         // Adiciona classe de loading ao botão
         const button = this.querySelector('button[type="submit"]');
@@ -204,37 +172,14 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             showLoadingModal();
 
-            const materia = document.getElementById('materia').value;
-            const conteudo = document.getElementById('conteudo').value;
-            const nivel = document.getElementById('nivel').value;
-            const quantidade = document.getElementById('quantidade').value;
-            const userId = {{ Auth::id() }}; // Passa o ID do usuário autenticado
-
-            console.log('Dados do formulário:', { materia, conteudo, nivel, quantidade, userId });
-
-            // Chama a API do Gemini para gerar a resposta da questão
-            const geminiResponse = await callGeminiAPI(conteudo, materia, nivel, userId);
-
-            console.log('Resposta do Gemini:', geminiResponse);
-
-            // Prepara os dados para enviar ao controller
-            const questaoData = {
-                materia,
-                conteudo,
-                nivel,
-                quantidade,
-                gemini_response: geminiResponse
-            };
-
-            // Envia os dados da questão para o controller via AJAX
+            const formData = new FormData(form);
             const response = await fetch(form.action, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify(questaoData)
+                body: formData
             });
 
             if (!response.ok) {
@@ -243,9 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const data = await response.json();
-            hideLoadingModal();
-
-            // Redirecionar para a página de exibição das Questões
             window.location.href = `/questoes/show/${data.ids.join(',')}`;
         } catch (error) {
             hideLoadingModal();

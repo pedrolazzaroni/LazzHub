@@ -8,9 +8,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use App\Services\GeminiService;
 
 class QuestaoController extends Controller
 {
+    protected $geminiService;
+
+    public function __construct(GeminiService $geminiService)
+    {
+        $this->geminiService = $geminiService;
+    }
+
     /**
      * Show the form for creating a new Questao.
      */
@@ -40,7 +48,6 @@ class QuestaoController extends Controller
             'materia' => 'required|string|max:255',
             'nivel' => 'required|in:Muito Fácil,Fácil,Médio,Difícil,Muito Difícil',
             'quantidade' => 'required|integer|min:1|max:10', // Validação para quantidade
-            'gemini_response' => 'required|string|max:2000', // Validar a resposta do Gemini
         ]);
 
         $quantidade = $request->quantidade;
@@ -50,13 +57,25 @@ class QuestaoController extends Controller
 
         try {
             for ($i = 0; $i < $quantidade; $i++) {
+                // Gerar a resposta da questão usando o GeminiService
+                $prompt = $this->generatePrompt($request->materia, $request->conteudo, $request->nivel);
+                \Log::info('Prompt gerado para Gemini:', ['prompt' => $prompt]);
+
+                $geminiResponse = $this->geminiService->generateContent($prompt);
+
+                if (!$geminiResponse) {
+                    throw new \Exception('Falha ao gerar conteúdo com a API do Gemini.');
+                }
+
+                \Log::info('Resposta formatada do Gemini:', ['response' => $geminiResponse]);
+
                 // Criar a Questao com a resposta do Gemini
                 $questao = Questao::create([
                     'conteudo' => $request->conteudo,
                     'materia' => $request->materia,
                     'nivel' => $request->nivel,
                     'user_id' => Auth::id(),
-                    'gemini_response' => $request->gemini_response,
+                    'gemini_response' => $geminiResponse, // Salvar a resposta formatada
                 ]);
 
                 \Log::info('Questao criada com ID ' . $questao->id);
@@ -95,5 +114,13 @@ class QuestaoController extends Controller
         }
 
         return view('questoes.show', compact('questoes'));
+    }
+
+    /**
+     * Gerar o prompt para a API do Gemini.
+     */
+    protected function generatePrompt($materia, $conteudo, $nivel)
+    {
+        return "Crie uma questão de prova sobre o seguinte conteúdo:\n\nMatéria: {$materia}\nConteúdo: {$conteudo}\nNível de Dificuldade: {$nivel}\n\nA questão deve ser clara, objetiva e adequada ao nível de dificuldade especificado.";
     }
 }
