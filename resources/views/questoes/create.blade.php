@@ -57,6 +57,37 @@
                         </div>
                     </div>
 
+                    <!-- Agrupar campos Tipo e Nível lado a lado -->
+                    <div class="flex flex-col md:flex-row md:space-x-6">
+                        <!-- Campo Tipo da Questão -->
+                        <div class="w-full md:w-1/2">
+                            <label for="tipo" class="block text-sm font-medium text-gray-800">Tipo da Questão</label>
+                            <select name="tipo" id="tipo" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Selecione o tipo</option>
+                                <option value="multipla_escolha">Múltipla Escolha</option>
+                                <option value="discurssiva">Discursiva/Prática</option>
+                            </select>
+                            <p class="mt-1 text-sm text-gray-600">
+                                Escolha o tipo de questão que deseja criar.
+                            </p>
+                        </div>
+
+                        <!-- Campo Nível de Dificuldade -->
+                        <div class="w-full md:w-1/2">
+                            <label for="nivel" class="block text-sm font-medium text-gray-800">Nível de Dificuldade</label>
+                            <select name="nivel" id="nivel" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Selecione um nível</option>
+                                <option value="Muito Fácil">Muito Fácil</option>
+                                <option value="Fácil">Fácil</option>
+                                <option value="Médio">Médio</option>
+                                <option value="Difícil">Difícil</option>
+                                <option value="Muito Difícil">Muito Difícil</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- Campo Conteúdo da Questão -->
                     <div class="w-full">
                         <label for="conteudo" class="block text-sm font-medium text-gray-800">Conteúdo da Questão</label>
@@ -66,20 +97,6 @@
                         <p class="mt-1 text-sm text-gray-600">
                             <span id="conteudoCount">0</span>/1000 caracteres
                         </p>
-                    </div>
-
-                    <!-- Campo Nível de Dificuldade -->
-                    <div class="w-full">
-                        <label for="nivel" class="block text-sm font-medium text-gray-800">Nível de Dificuldade</label>
-                        <select name="nivel" id="nivel" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            <option value="">Selecione um nível</option>
-                            <option value="Muito Fácil">Muito Fácil</option>
-                            <option value="Fácil">Fácil</option>
-                            <option value="Médio">Médio</option>
-                            <option value="Difícil">Difícil</option>
-                            <option value="Muito Difícil">Muito Difícil</option>
-                        </select>
                     </div>
 
                     <!-- Botão de Submissão -->

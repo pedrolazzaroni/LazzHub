@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('conteudo'); // Conteúdo da questão
             $table->string('materia', 255); // Matéria da questão
             $table->enum('nivel', ['Muito Fácil', 'Fácil', 'Médio', 'Difícil', 'Muito Difícil']); // Nível de dificuldade
+            $table->enum('tipo', ['multipla_escolha', 'discurssiva'])->default('discurssiva');
             $table->text('gemini_response')->nullable(); // Garantir que permite nulos
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Usuário que criou a questão
             $table->timestamps();

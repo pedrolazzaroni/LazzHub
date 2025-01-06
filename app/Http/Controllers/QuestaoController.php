@@ -48,6 +48,7 @@ class QuestaoController extends Controller
             'materia' => 'required|string|max:255',
             'nivel' => 'required|in:Muito Fácil,Fácil,Médio,Difícil,Muito Difícil',
             'quantidade' => 'required|integer|min:1|max:10', // Validação para quantidade
+            'tipo' => 'required|in:multipla_escolha,discurssiva', // Validação para o novo campo
         ]);
 
         $quantidade = $request->quantidade;
@@ -74,6 +75,7 @@ class QuestaoController extends Controller
                     'conteudo' => $request->conteudo,
                     'materia' => $request->materia,
                     'nivel' => $request->nivel,
+                    'tipo' => $request->tipo, // Salvar o tipo da questão
                     'user_id' => Auth::id(),
                     'gemini_response' => $geminiResponse, // Salvar a resposta formatada
                 ]);
