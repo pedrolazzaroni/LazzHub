@@ -63,9 +63,9 @@ class QuestaoController extends Controller
             $this->generatedQuestions = []; // Reset the array for this batch
 
             for ($i = 0; $i < $quantidade; $i++) {
-                // Generate question and validate uniqueness
+                // Generate question with embedded answer and validate uniqueness
                 $attempts = 0;
-                $maxAttempts = 5; // Increased attempts for better uniqueness
+                $maxAttempts = 5;
 
                 do {
                     $prompts = $this->generatePrompt(
@@ -73,17 +73,16 @@ class QuestaoController extends Controller
                         $request->conteudo,
                         $request->nivel,
                         $request->tipo,
-                        $i + 1, // Question number
-                        $quantidade // Total questions
+                        $i + 1,
+                        $quantidade
                     );
 
-                    $questaoGerada = $this->geminiService->generateContent($prompts['questao']);
+                    $questaoCompleta = $this->geminiService->generateContent($prompts['questao']);
                     $attempts++;
 
                     // Check for similarity with previous questions
-                    $isSimilar = $this->isQuestionSimilar($questaoGerada, $this->generatedQuestions);
+                    $isSimilar = $this->isQuestionSimilar($questaoCompleta, $this->generatedQuestions);
 
-                    // If we've tried too many times, throw an exception
                     if ($attempts >= $maxAttempts && $isSimilar) {
                         throw new \Exception('Não foi possível gerar uma questão única após várias tentativas.');
                     }
@@ -91,29 +90,20 @@ class QuestaoController extends Controller
                 } while ($isSimilar && $attempts < $maxAttempts);
 
                 // Add to generated questions array
-                $this->generatedQuestions[] = $questaoGerada;
+                $this->generatedQuestions[] = $questaoCompleta;
 
-                // Generate answer with specific instruction for multiple choice
-                $respostaGerada = $this->geminiService->generateContent($prompts['resposta']);
-
-                // For multiple choice, ensure only the letter is stored
-                if ($request->tipo === 'multipla_escolha') {
-                    $respostaGerada = $prompts['correctAnswer'];
+                if (!$questaoCompleta) {
+                    throw new \Exception('Falha ao gerar questão.');
                 }
 
-                if (!$questaoGerada || !$respostaGerada) {
-                    throw new \Exception('Falha ao gerar questão ou resposta.');
-                }
-
-                // Save the question
+                // Save the combined question and answer
                 $questao = Questao::create([
                     'conteudo' => $request->conteudo,
                     'materia' => $request->materia,
                     'nivel' => $request->nivel,
                     'tipo' => $request->tipo,
                     'user_id' => Auth::id(),
-                    'gemini_response' => $questaoGerada,
-                    'resposta' => $respostaGerada
+                    'gemini_response' => $questaoCompleta,
                 ]);
 
                 $questoesCriadas[] = $questao->id;
@@ -159,14 +149,12 @@ class QuestaoController extends Controller
                      "Nível: {$nivel}\n" .
                      "Questão {$questionNumber} de {$totalQuestions}\n\n";
 
-        // Randomly select the correct answer position
-        $correctAnswer = $this->correctAnswerOptions[array_rand($this->correctAnswerOptions)];
-
         $promptQuestao = $basePrompt .
-            "Gere uma questão de {$tipoDescricao}.\n\n";
+            "Gere uma questão e sua resposta de {$tipoDescricao}.\n\n";
 
         if ($tipo === 'multipla_escolha') {
-            $promptQuestao .= "A questão deve seguir EXATAMENTE este formato:\n\n" .
+            $correctAnswer = $this->correctAnswerOptions[array_rand($this->correctAnswerOptions)];
+            $promptQuestao .= "A questão deve conter SOMENTE o enunciado e as opções de resposta, todas em fonte normal (sem negrito, para que na hora de copiar possa evitar a exibição de dois ** indesejados). Além disso, gere a resposta apropriada para a questãoo.\n\n" .
                 "[Enunciado da questão]\n\n" .
                 "A) [alternativa]\n" .
                 "B) [alternativa]\n" .
@@ -176,14 +164,8 @@ class QuestaoController extends Controller
                 "IMPORTANTE: A alternativa {$correctAnswer} deve ser a correta.";
         }
 
-        $promptResposta = $tipo === 'multipla_escolha' ?
-            "Para a questão acima, responda APENAS com a letra '{$correctAnswer}' (sem explicação adicional)." :
-            "Para a questão acima, forneça uma resposta completa e detalhada.";
-
         return [
             'questao' => $promptQuestao,
-            'resposta' => $promptResposta,
-            'correctAnswer' => $correctAnswer
         ];
     }
 
@@ -201,15 +183,5 @@ class QuestaoController extends Controller
             }
         }
         return false;
-    }
-
-    protected function generateAnswerPrompt($questao, $tipo)
-    {
-        return "Para a seguinte questão:\n\n" .
-               $questao . "\n\n" .
-               "Forneça " .
-               ($tipo === 'multipla_escolha' ?
-                   "APENAS a letra da alternativa correta." :
-                   "a resposta completa e detalhada.");
     }
 }
