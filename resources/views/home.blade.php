@@ -43,17 +43,17 @@
 
         <div class="mt-10">
             <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-                <!-- Recurso 1: Respostas Rápidas -->
-                <a href="{{ route('pergunta.create') }}" class="relative transition-transform transform hover:scale-105 duration-300 border rounded-lg shadow-lg p-6 bg-white hover:bg-indigo-50">
+                <!-- Gerador de Questões -->
+                <a href="{{ route('questoes.create') }}" class="relative transition-transform transform hover:scale-105 duration-300 border rounded-lg shadow-lg p-6 bg-white hover:bg-indigo-50">
                     <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                         </svg>
                     </div>
                     <div class="ml-16">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Respostas Rápidas</h3>
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Gerador de Questões</h3>
                         <p class="mt-2 text-base text-gray-500">
-                            Obtenha respostas instantâneas para suas dúvidas
+                            Crie questões personalizadas para seus estudos
                         </p>
                     </div>
                 </a>
