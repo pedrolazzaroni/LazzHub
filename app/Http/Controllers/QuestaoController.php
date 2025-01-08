@@ -28,7 +28,7 @@ class QuestaoController extends Controller
     public function create()
     {
         // Add debug to verify method is being called
-        \Log::info('QuestaoController@create method called');
+        Log::info('QuestaoController@create method called');
         return view('questoes.create');
     }
 
@@ -38,11 +38,11 @@ class QuestaoController extends Controller
     public function store(Request $request): JsonResponse
     {
         // Log para verificar os dados recebidos na requisição
-        \Log::info('Dados da requisição para criar Questao(s):', $request->all());
+        Log::info('Dados da requisição para criar Questao(s):', $request->all());
 
         // Verificar se 'materia' está presente e não está vazio
         if (!$request->filled('materia')) {
-            \Log::error('Campo "materia" está vazio ou ausente.');
+            Log::error('Campo "materia" está vazio ou ausente.');
             return response()->json(['error' => 'O campo "Matéria" é obrigatório.'], 422);
         }
 
@@ -114,7 +114,7 @@ class QuestaoController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Erro ao criar questão:', ['error' => $e->getMessage()]);
+            Log::error('Erro ao criar questão:', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Falha ao gerar questão: ' . $e->getMessage()], 500);
         }
     }
