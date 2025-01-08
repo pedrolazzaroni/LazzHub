@@ -150,18 +150,18 @@ class QuestaoController extends Controller
                      "Questão {$questionNumber} de {$totalQuestions}\n\n";
 
         $promptQuestao = $basePrompt .
-            "Gere uma questão e sua resposta de {$tipoDescricao}.\n\n";
+            "Gere uma questão e sua resposta de {$tipoDescricao}.\n";
 
         if ($tipo === 'multipla_escolha') {
-            $correctAnswer = $this->correctAnswerOptions[array_rand($this->correctAnswerOptions)];
-            $promptQuestao .= "A questão deve conter SOMENTE o enunciado e as opções de resposta, todas em fonte normal (sem negrito, para que na hora de copiar possa evitar a exibição de dois ** indesejados). Além disso, gere a resposta apropriada para a questãoo.\n\n" .
-                "[Enunciado da questão]\n\n" .
-                "A) [alternativa]\n" .
-                "B) [alternativa]\n" .
-                "C) [alternativa]\n" .
-                "D) [alternativa]\n" .
-                "E) [alternativa]\n\n" .
-                "IMPORTANTE: A alternativa {$correctAnswer} deve ser a correta.";
+            $promptQuestao .= "A questão deve conter o seguinte layout:\n".
+            "[ENUNCIADO]\n" .
+            "A) [alternativa]\n" .
+            "B) [alternativa]\n" .
+            "C) [alternativa]\n" .
+            "D) [alternativa]\n" .
+            "E) [alternativa]\n\n".
+            "[RESPOSTA CORRETA]\n" .
+            "Lembre-se: Não use palavras em negrito, itálico ou sublinhado.";
         }
 
         return [
