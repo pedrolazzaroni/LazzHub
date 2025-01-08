@@ -17,7 +17,6 @@ class Questao extends Model
         'user_id',
         'gemini_response',
         'tipo', // Adicionado o campo tipo
-        'resposta', // Adicionado o campo resposta
     ];
 
     /**

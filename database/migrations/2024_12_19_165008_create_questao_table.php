@@ -18,7 +18,6 @@ return new class extends Migration
             $table->enum('nivel', ['Muito Fácil', 'Fácil', 'Médio', 'Difícil', 'Muito Difícil']); // Nível de dificuldade
             $table->enum('tipo', ['multipla_escolha', 'discurssiva'])->default('discurssiva');
             $table->text('gemini_response')->nullable(); // Resposta gerada pela API Gemini
-            $table->text('resposta')->nullable(); // Resposta correspondente à questão
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Usuário que criou a questão
             $table->timestamps();
         });

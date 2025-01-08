@@ -11,8 +11,10 @@
                 @if($questao->gemini_response)
                     <div class="mb-4">
                         {{-- Questão --}}
-                        <p class="text-gray-700"><strong>Questão:</strong></p>
-                        <p class="text-gray-600">{{ $questao->gemini_response }}</p>
+                        @php
+                            $formattedResponse = preg_replace('/\*\*(.*?)\*\*/', '<br><strong>$1</strong><br>', $questao->gemini_response);
+                        @endphp
+                        <p class="text-gray-600 mt-[-30px]">{!! $formattedResponse !!}</p>
                     </div>
                 @else
                     <div class="mb-4">
