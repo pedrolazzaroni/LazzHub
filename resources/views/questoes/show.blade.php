@@ -2,6 +2,38 @@
 
 @section('title', 'Visualizar Questão(s)')
 
+@push('styles')
+<style>
+    @media print {
+        .print-hide {
+            display: none !important; /* Force hide elements with print-hide class */
+        }
+        .header {
+            box-shadow: none;
+            background-color: #6f42c1;
+            color: white;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .bg-white {
+            box-shadow: none;
+            border: none;
+        }
+        .dashboard-buttons {
+            display: none;
+        }
+        .print-up {
+            margin-top: -20px;
+        }
+        nav > div > div > div:last-child {
+            display: none !important; /* Force hide navigation items */
+        }
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="py-12">
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
@@ -36,7 +68,7 @@
         @endforeach
 
         <!-- Botão de Criar Outra Questão -->
-        <div class="mt-6 flex justify-center no-print">
+        <div class="mt-6 flex justify-center print-hide">
             <a href="{{ route('questoes.create') }}"
                 class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-white transition-all duration-300 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Criar Outra Questão
@@ -65,11 +97,13 @@
 @push('styles')
 <style>
     @media print {
-        header {
+        /* Removed the header hiding to ensure the logo remains visible */
+        /* header {
             display: none;
-        }
+        } */
+
         .no-print {
-            display: none;
+            display: none; /* Oculta os elementos com a classe 'no-print' durante a impressão */
         }
 
         /* Optional: Adjust margins or other styles for print */

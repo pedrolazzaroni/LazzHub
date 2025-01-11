@@ -116,6 +116,12 @@
                 margin: 0;
                 padding: 0;
             }
+
+            /* Optional: Remove shadows and borders for a cleaner print */
+            .bg-white {
+                box-shadow: none;
+                border: none;
+            }
         }
     </style>
     @endpush
