@@ -26,13 +26,13 @@
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">
+                        <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600 logo">
                             {{ config('app.name') }}
                         </a>
                     </div>
                 </div>
 
-                <div class="flex items-center">
+                <div class="flex items-center no-print">
                     @auth
                         <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2 dashboard-buttons">Dashboard</a>
                         <a href="{{ route('resumo.historico') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2 dashboard-buttons">Histórico</a>
@@ -92,5 +92,32 @@
             }, 3000);
         }
     </script>
+
+    @push('styles')
+    <style>
+        @media print {
+            /* Hide all elements with the 'no-print' class */
+            .no-print {
+                display: none;
+            }
+
+            /* Hide the footer */
+            footer {
+                display: none;
+            }
+
+            /* Ensure the logo is visible */
+            .logo {
+                display: block;
+            }
+
+            /* Optional: Adjust main content styling for print */
+            main {
+                margin: 0;
+                padding: 0;
+            }
+        }
+    </style>
+    @endpush
 </body>
 </html>

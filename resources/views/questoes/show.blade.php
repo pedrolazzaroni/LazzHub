@@ -22,7 +22,7 @@
                         <p class="text-gray-700"><strong>Questão:</strong> <span class="text-red-500">Não disponível.</span></p>
                     </div>
                 @endif
-                <div class="flex space-x-4">
+                <div class="flex space-x-4 no-print">
                     <button onclick="window.print()"
                         class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
                         Imprimir
@@ -36,7 +36,7 @@
         @endforeach
 
         <!-- Botão de Criar Outra Questão -->
-        <div class="mt-6 flex justify-center">
+        <div class="mt-6 flex justify-center no-print">
             <a href="{{ route('questoes.create') }}"
                 class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-white transition-all duration-300 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Criar Outra Questão
@@ -60,5 +60,34 @@
         });
     }
 </script>
+@endpush
+
+@push('styles')
+<style>
+    @media print {
+        header {
+            display: none;
+        }
+        .no-print {
+            display: none;
+        }
+
+        /* Optional: Adjust margins or other styles for print */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .py-12, .max-w-6xl, .mx-auto, .sm\:px-6, .lg\:px-8 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .bg-white {
+            background: none;
+            box-shadow: none;
+        }
+    }
+</style>
 @endpush
 @endsection

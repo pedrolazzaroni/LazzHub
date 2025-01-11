@@ -39,15 +39,11 @@
                 <h1 class="text-2xl font-bold text-gray-900">{{ $resumo['materia'] }}</h1>
 
                 @php
-                    // Decodifica o JSON e extrai o texto
-                    $contentArray = json_decode($resumo['content'], true);
-                    $text = $contentArray['candidates'][0]['content']['parts'][0]['text'] ?? 'Conteúdo não disponível.';
-
-                    // Função para converter **texto** em <strong>texto</strong>
-                    $text = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $text);
+                    // Função para converter **texto** em <strong>texto</strong> e adicionar quebras de linha
+                    $formattedContent = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong><br>', $resumo->content);
                 @endphp
 
-                <p class="mt-1 text-sm text-gray-600">Conteúdo: {!! nl2br($text) !!}</p>
+                <p class="mt-1 text-sm text-gray-600">Conteúdo: {!! nl2br($formattedContent) !!}</p>
                 <p class="text-sm text-gray-500">Nível: {{ ucfirst($resumo['nivel']) }}</p>
 
                 <!-- Rodapé de Ações no Topo -->
