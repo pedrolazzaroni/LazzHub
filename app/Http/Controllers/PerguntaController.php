@@ -32,40 +32,38 @@ class PerguntaController extends Controller
                 'estilo' => 'required|string',
             ]);
 
-            $prompt = "Por favor, responda a seguinte pergunta: " . $validated['pergunta'] . " na sua resposta, utilize um estilo " . $validated['estilo'];
+            $prompt = "Por favor, responda a seguinte pergunta: " . $validated['pergunta'] .
+                     " na sua resposta, utilize um estilo " . $validated['estilo'];
+
+            // Get response directly from Gemini service
             $response = $this->geminiService->generateContent($prompt);
 
-            Log::info('Resposta da API:', $response);
-
-            // Verifica se a resposta tem a estrutura esperada
-            if (isset($response['candidates'][0]['content']['parts'][0]['text'])) {
-                $content = $response['candidates'][0]['content']['parts'][0]['text'];
-
-                $pergunta = Pergunta::create([
-                    'user_id' => Auth::id(),
-                    'titulo' => $validated['pergunta'],
-                    'descricao' => $content,
-                    'estilo' => $validated['estilo'],
-                ]);
-
-                return response()->json([
-                    'success' => true,
-                    'id' => $pergunta->id,
-                    'content' => $content,
-                ]);
+            if (!$response) {
+                throw new \Exception('Falha ao gerar resposta.');
             }
 
-            Log::error('Estrutura da resposta inválida:', ['response' => $response]);
+            Log::info('Resposta da API:', ['response' => $response]);
+
+            // Save the response directly without parsing JSON
+            $pergunta = Pergunta::create([
+                'user_id' => Auth::id(),
+                'titulo' => $validated['pergunta'],
+                'descricao' => $response, // Store the raw response
+                'estilo' => $validated['estilo'],
+            ]);
+
             return response()->json([
-                'success' => false,
-                'error' => 'Erro ao processar resposta da API'
-            ], 500);
+                'success' => true,
+                'id' => $pergunta->id,
+                'content' => $response
+            ]);
 
         } catch (\Exception $e) {
             Log::error('Erro ao processar requisição: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
             return response()->json([
                 'success' => false,
-                'error' => 'Erro interno do servidor: ' . $e->getMessage()
+                'error' => 'Erro ao gerar resposta: ' . $e->getMessage()
             ], 500);
         }
     }
