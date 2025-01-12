@@ -36,12 +36,12 @@
 
 @section('content')
 <div class="py-12">
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 ">
         @foreach($questoes as $questao)
             <div class="bg-white shadow-lg sm:rounded-lg p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Questão #{{ $questao->id }}</h2>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 print-up">Questão #{{ $questao->id }}</h2>
                 @if($questao->gemini_response)
-                    <div class="mb-4">
+                    <div class="mb-4 ">
                         {{-- Questão --}}
                         @php
                             $formattedResponse = preg_replace('/\*\*(.*?)\*\*/', '<br><strong>$1</strong><br>', $questao->gemini_response);
@@ -74,18 +74,9 @@
                 </div>
             </div>
         @endforeach
-
-        <!-- Remove or comment out the old "Criar Outra Questão" button -->
-        {{-- <div class="mt-6 flex justify-center print-hide">
-            <a href="{{ route('questoes.create') }}"
-                class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-white transition-all duration-300 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Criar Outra Questão
-            </a>
-        </div> --}}
     </div>
 </div>
 
-@push('scripts')
 <script>
     function copyToClipboard(id) {
         const questao = @json($questoes->keyBy('id'));
@@ -100,36 +91,33 @@
         });
     }
 </script>
-@endpush
 
-@push('styles')
 <style>
     @media print {
-        /* Removed the header hiding to ensure the logo remains visible */
-        /* header {
-            display: none;
-        } */
-
-        .no-print {
-            display: none; /* Oculta os elementos com a classe 'no-print' durante a impressão */
+        .print-hide {
+            display: none; /* Oculta os elementos com a classe 'print-hide' durante a impressão */
         }
-
-        /* Optional: Adjust margins or other styles for print */
-        body {
-            margin: 0;
-            padding: 0;
+        .header {
+            box-shadow: none; /* Remove a sombra do cabeçalho */
+            background-color: #6f42c1; /* Mantém a cor de fundo */
+            color: white; /* Mantém a cor do texto */
+            text-align: center; /* Centraliza o texto do cabeçalho */
         }
-
-        .py-12, .max-w-6xl, .mx-auto, .sm\:px-6, .lg\:px-8 {
-            margin: 0;
-            padding: 0;
+        .header h1 {
+            margin: 0; /* Remove margens do título */
         }
-
         .bg-white {
-            background: none;
-            box-shadow: none;
+            box-shadow: none; /* Remove o efeito de card do conteúdo */
+            border: none; /* Remove a borda do card */
         }
+        /* Oculta os botões de dashboard, histórico e sair */
+        .dashboard-buttons {
+            display: none; /* Adicione a classe 'dashboard-buttons' aos botões que você deseja ocultar */
+        }
+        .print-up {
+            margin-top: -20px; /* Adiciona margem superior de 100px */
+        }
+
     }
 </style>
-@endpush
 @endsection
