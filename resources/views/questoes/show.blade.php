@@ -2,38 +2,6 @@
 
 @section('title', 'Visualizar Questão(s)')
 
-@push('styles')
-<style>
-    @media print {
-        .print-hide {
-            display: none !important; /* Force hide elements with print-hide class */
-        }
-        .header {
-            box-shadow: none;
-            background-color: #6f42c1;
-            color: white;
-            text-align: center;
-        }
-        .header h1 {
-            margin: 0;
-        }
-        .bg-white {
-            box-shadow: none;
-            border: none;
-        }
-        .dashboard-buttons {
-            display: none;
-        }
-        .print-up {
-            margin-top: -20px;
-        }
-        nav > div > div > div:last-child {
-            display: none !important; /* Force hide navigation items */
-        }
-    }
-</style>
-@endpush
-
 @section('content')
 <div class="py-12">
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 ">
@@ -91,33 +59,5 @@
         });
     }
 </script>
-
-<style>
-    @media print {
-        .print-hide {
-            display: none; /* Oculta os elementos com a classe 'print-hide' durante a impressão */
-        }
-        .header {
-            box-shadow: none; /* Remove a sombra do cabeçalho */
-            background-color: #6f42c1; /* Mantém a cor de fundo */
-            color: white; /* Mantém a cor do texto */
-            text-align: center; /* Centraliza o texto do cabeçalho */
-        }
-        .header h1 {
-            margin: 0; /* Remove margens do título */
-        }
-        .bg-white {
-            box-shadow: none; /* Remove o efeito de card do conteúdo */
-            border: none; /* Remove a borda do card */
-        }
-        /* Oculta os botões de dashboard, histórico e sair */
-        .dashboard-buttons {
-            display: none; /* Adicione a classe 'dashboard-buttons' aos botões que você deseja ocultar */
-        }
-        .print-up {
-            margin-top: -20px; /* Adiciona margem superior de 100px */
-        }
-
-    }
-</style>
+@include('layouts.print')
 @endsection
