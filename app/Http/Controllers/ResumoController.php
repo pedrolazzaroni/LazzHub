@@ -80,9 +80,27 @@ class ResumoController extends Controller
     {
         $resumos = Resumo::where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
-            ->paginate(9);
+            ->get();
 
-        return view('resumos.historico', compact('resumos'));
+        $questoes = \App\Models\Questao::where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Combine and sort both collections by created_at
+        $items = $resumos->concat($questoes)->sortByDesc('created_at');
+        
+        // Paginate the combined collection
+        $perPage = 9;
+        $page = request()->get('page', 1);
+        $items = new \Illuminate\Pagination\LengthAwarePaginator(
+            $items->forPage($page, $perPage),
+            $items->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url()]
+        );
+
+        return view('resumos.historico', compact('items'));
     }
 
     public function save(Request $request)
