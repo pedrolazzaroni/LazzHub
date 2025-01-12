@@ -51,8 +51,51 @@
                         @endforeach
                     </div>
 
+                    <!-- Paginação Estilizada -->
                     <div class="mt-6">
-                        {{ $items->links() }}
+                        @if ($items->hasPages())
+                            <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-center">
+                                {{-- Previous Page Link --}}
+                                @if ($items->onFirstPage())
+                                    <span class="px-3 py-1 bg-gray-100 text-gray-400 rounded-l-md cursor-not-allowed">
+                                        Anterior
+                                    </span>
+                                @else
+                                    <a href="{{ $items->previousPageUrl() }}"
+                                       class="px-3 py-1 bg-indigo-600 text-white rounded-l-md hover:bg-indigo-700 transition duration-150 ease-in-out">
+                                        Anterior
+                                    </a>
+                                @endif
+
+                                {{-- Pagination Elements --}}
+                                <div class="flex items-center">
+                                    @foreach ($items->getUrlRange(1, $items->lastPage()) as $page => $url)
+                                        @if ($page == $items->currentPage())
+                                            <span class="px-3 py-1 bg-indigo-600 text-white border-t border-b">
+                                                {{ $page }}
+                                            </span>
+                                        @else
+                                            <a href="{{ $url }}"
+                                               class="px-3 py-1 bg-white text-indigo-600 border-t border-b hover:bg-indigo-50 transition duration-150 ease-in-out">
+                                                {{ $page }}
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+
+                                {{-- Next Page Link --}}
+                                @if ($items->hasMorePages())
+                                    <a href="{{ $items->nextPageUrl() }}"
+                                       class="px-3 py-1 bg-indigo-600 text-white rounded-r-md hover:bg-indigo-700 transition duration-150 ease-in-out">
+                                        Próxima
+                                    </a>
+                                @else
+                                    <span class="px-3 py-1 bg-gray-100 text-gray-400 rounded-r-md cursor-not-allowed">
+                                        Próxima
+                                    </span>
+                                @endif
+                            </nav>
+                        @endif
                     </div>
                 @endif
             </div>
