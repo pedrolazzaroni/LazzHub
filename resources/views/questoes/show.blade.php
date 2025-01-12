@@ -54,26 +54,34 @@
                         <p class="text-gray-700"><strong>Questão:</strong> <span class="text-red-500">Não disponível.</span></p>
                     </div>
                 @endif
-                <div class="flex space-x-4 no-print">
-                    <button onclick="window.print()"
-                        class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
-                        Imprimir
-                    </button>
-                    <button onclick="copyToClipboard({{ $questao->id }})"
-                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
-                        Copiar Questão
-                    </button>
+
+                <!-- Rodapé de Ações no Topo -->
+                <div class="mt-8 border-t pt-6 flex justify-between print-hide">
+                    <div>
+                        <a href="{{ route('questoes.create') }}"
+                            class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Criar Nova Questão
+                        </a>
+                        <button onclick="copyToClipboard({{ $questao->id }})"
+                            class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Copiar Questão
+                        </button>
+                        <button onclick="window.print()"
+                            class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                            Imprimir Questão
+                        </button>
+                    </div>
                 </div>
             </div>
         @endforeach
 
-        <!-- Botão de Criar Outra Questão -->
-        <div class="mt-6 flex justify-center print-hide">
+        <!-- Remove or comment out the old "Criar Outra Questão" button -->
+        {{-- <div class="mt-6 flex justify-center print-hide">
             <a href="{{ route('questoes.create') }}"
                 class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-white transition-all duration-300 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Criar Outra Questão
             </a>
-        </div>
+        </div> --}}
     </div>
 </div>
 
