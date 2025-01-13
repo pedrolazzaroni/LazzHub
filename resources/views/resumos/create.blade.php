@@ -3,7 +3,7 @@
 @section('title', 'Criar Resumo')
 
 @section('content')
-<div class="py-12">
+<div class="py-11 overflow-hidden"> <!-- Added overflow-hidden -->
     <div id="loadingModal" class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity hidden z-50">
         <div class="fixed inset-0 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center">
@@ -18,61 +18,65 @@
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
-            <div class="p-6 bg-gray-100 border-b border-gray-300">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-6 opacity-0 transform translate-y-4 transition-all duration-500" id="title">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 100ms">
+        <div class="bg-blue-50 overflow-hidden shadow-lg sm:rounded-lg">
+            <div class="p-6 bg-indigo-500 border-b border-gray-300 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 300ms">
+                <h2 class="text-2xl font-semibold text-white mb-6 opacity-0 transform translate-y-4 transition-all duration-500" id="title">
                     Criar Resumo de Prova
                 </h2>
 
                 <form action="{{ route('resumo.generate') }}" method="POST" class="space-y-6" id="resumoForm">
                     @csrf
 
-                    <div class="flex space-x-6 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 200ms">
-                        <div class="w-1/2">
-                            <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
-                            <input type="text" name="materia" id="materia" required
-                                maxlength="50"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            <p class="mt-1 text-sm text-gray-600">
-                                <span id="materiaCount">0</span>/50 caracteres
-                            </p>
+                    <div class="grid grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md">
+                            <div class="w-full">
+                                <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
+                                <input type="text" name="materia" id="materia" required
+                                    maxlength="50"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <p class="mt-1 text-sm text-gray-600">
+                                    <span id="materiaCount">0</span>/50 caracteres
+                                </p>
+                            </div>
                         </div>
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md">
+                            <div class="w-full">
+                                <label for="curso" class="block text-sm font-medium text-gray-800">Curso</label>
+                                <input type="text" name="curso" id="curso" required
+                                    maxlength="50"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    placeholder="Ex: Engenharia, Medicina, História...">
+                                <p class="mt-1 text-sm text-gray-600">
+                                    <span id="cursoCount">0</span>/50 caracteres
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                        <div class="w-1/2">
-                            <label for="curso" class="block text-sm font-medium text-gray-800">Curso</label>
-                            <input type="text" name="curso" id="curso" required
-                                maxlength="50"
+                    <div class="grid grid-cols-2 gap-4 mt-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md">
+                            <label for="nivel" class="block text-sm font-medium text-gray-800">Nível de Ensino</label>
+                            <select name="nivel" id="nivel" required
+                                class="mt-1 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 appearance-none">
+                                <option value="">Selecione um nível</option>
+                                <option value="fundamental1">Fundamental 1</option>
+                                <option value="fundamental2">Fundamental 2</option>
+                                <option value="medio">Ensino Médio</option>
+                                <option value="universitario">Universitário</option>
+                            </select>
+                        </div>
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md">
+                            <label for="conteudo" class="block text-sm font-medium text-gray-800">Qual é o conteúdo da prova?</label>
+                            <textarea name="conteudo" id="conteudo" rows="2" required maxlength="300"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                placeholder="Ex: Engenharia, Medicina, História...">
+                                placeholder="Ex: Revolução Industrial, Segunda Guerra Mundial, Equações do 2º grau..."></textarea>
                             <p class="mt-1 text-sm text-gray-600">
-                                <span id="cursoCount">0</span>/50 caracteres
+                                <span class="text-gray-700">Digite o tema ou assunto que será cobrado na prova</span>
+                                <br>
+                                <span id="conteudoCount">0</span>/300 caracteres
                             </p>
                         </div>
-                    </div>
-
-                    <div class="opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 400ms">
-                        <label for="nivel" class="block text-sm font-medium text-gray-800">Nível de Ensino</label>
-                        <select name="nivel" id="nivel" required
-                            class="mt-1 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 appearance-none">
-                            <option value="">Selecione um nível</option>
-                            <option value="fundamental1">Fundamental 1</option>
-                            <option value="fundamental2">Fundamental 2</option>
-                            <option value="medio">Ensino Médio</option>
-                            <option value="universitario">Universitário</option>
-                        </select>
-                    </div>
-
-                    <div class="opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 600ms">
-                        <label for="conteudo" class="block text-sm font-medium text-gray-800">Qual é o conteúdo da prova?</label>
-                        <textarea name="conteudo" id="conteudo" rows="2" required maxlength="300"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                            placeholder="Ex: Revolução Industrial, Segunda Guerra Mundial, Equações do 2º grau..."></textarea>
-                        <p class="mt-1 text-sm text-gray-600">
-                            <span class="text-gray-700">Digite o tema ou assunto que será cobrado na prova</span>
-                            <br>
-                            <span id="conteudoCount">0</span>/300 caracteres
-                        </p>
                     </div>
 
                     <div class="flex justify-end opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 800ms">

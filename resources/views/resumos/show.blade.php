@@ -62,7 +62,7 @@
         const notification = document.getElementById('notification');
         notification.classList.remove('hidden');
         setTimeout(() => {
-            notification.classList.add('hidden'); 
+            notification.classList.add('hidden');
         }, 500);
     }
 </script>

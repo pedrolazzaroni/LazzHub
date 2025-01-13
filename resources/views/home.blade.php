@@ -4,15 +4,15 @@
 
 @section('content')
 <div class="relative bg-indigo-600">
-    <div class="max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto py-[4.5rem] px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
+            <h1 class="text-2xl font-extrabold tracking-tight text-white sm:text-3xl md:text-4xl">
                 Bem-vindo ao {{ config('app.name') }}
             </h1>
-            <p class="mt-3 max-w-md mx-auto text-base text-indigo-200 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            <p class="mt-3 max-w-md mx-auto text-lg text-indigo-200 sm:text-base md:text-lg md:mt-5 md:max-w-3xl">
                 Sua plataforma de estudos inteligente com IA
             </p>
-            <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
+            <div class="mt-4 max-w-md mx-auto sm:flex sm:justify-center md:mt-6">
                 @guest
                     <div class="rounded-md shadow">
                         <a href="{{ route('register') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition duration-300 ease-in-out transform hover:scale-105">
@@ -31,17 +31,17 @@
     </div>
 </div>
 
-<div class="py-12 bg-white">
+<div class="py-8 bg-white ">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="lg:text-center">
             <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Recursos</h2>
-            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">
                 Uma melhor maneira de aprender
             </p>
         </div>
 
-        <div class="mt-10">
-            <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+        <div class="mt-8">
+            <div class="space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8">
                 <a href="{{ route('questoes.create') }}" class="relative transition-transform transform hover:scale-105 duration-300 border rounded-lg shadow-lg p-6 bg-white hover:bg-indigo-50">
                     <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

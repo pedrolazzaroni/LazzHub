@@ -3,18 +3,20 @@
 @section('title', 'Histórico')
 
 @section('content')
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 bg-white border-b border-gray-200">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Meu Histórico</h2>
+<div class="py-12 overflow-hidden"> <!-- Added overflow-hidden -->
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 100ms">
+        <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg"> <!-- Changed to bg-white -->
+            <div class="p-6 bg-blue-50 border-b border-gray-300 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 300ms">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-6 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 400ms" id="title">
+                    Meu Histórico
+                </h2>
 
                 @if($items->isEmpty())
                     <p class="text-gray-500 text-center py-8">Você ainda não tem itens salvos.</p>
                 @else
-                    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
                         @foreach($items as $item)
-                            <div class="bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow">
+                            <a href="{{ get_class($item) === 'App\Models\Resumo' ? route('resumo.show', $item->id) : route('questoes.show', $item->id) }}" class="bg-indigo-500 rounded-lg border shadow-lg hover:shadow-xl transition-transform transform hover:scale-105"> <!-- Added hover:scale-105 -->
                                 <div class="p-5">
                                     <div class="mb-2">
                                         <span class="px-2 py-1 text-xs font-semibold rounded-full
@@ -25,32 +27,23 @@
                                         </span>
                                     </div>
 
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $item->materia }}</h3>
-                                    <p class="text-sm text-gray-600 mb-3">
+                                    <h3 class="text-lg font-semibold text-white mb-2">{{ $item->materia }}</h3> <!-- Changed to text-white -->
+                                    <p class="text-sm text-gray-200 mb-3"> <!-- Changed to text-gray-200 -->
                                         @if(get_class($item) === 'App\Models\Resumo')
                                             {{ $item->curso }}
                                         @else
                                             Nível: {{ $item->nivel }}
                                         @endif
                                     </p>
-                                    <div class="text-xs text-gray-500 mb-4">
+                                    <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
                                         Criado em {{ $item->created_at->format('d/m/Y H:i') }}
                                     </div>
-                                    <a href="{{ get_class($item) === 'App\Models\Resumo' ?
-                                        route('resumo.show', $item->id) :
-                                        route('questoes.show', $item->id) }}"
-                                        class="inline-flex items-center text-indigo-600 hover:text-indigo-700">
-                                        Ver {{ get_class($item) === 'App\Models\Resumo' ? 'resumo' : 'questão' }}
-                                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                        </svg>
-                                    </a>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
 
-                    <div class="mt-6">
+                    <div class="mt-6 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
                         @if ($items->hasPages())
                             <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-center">
                                 @if ($items->onFirstPage())
@@ -95,4 +88,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            document.querySelectorAll('.opacity-0').forEach(el => {
+                el.classList.remove('opacity-0', 'translate-y-4');
+            });
+        }, 100);
+    });
+</script>
 @endsection
