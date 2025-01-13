@@ -3,16 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - LazzHub</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-100">
-    <div class="min-h-screen flex items-center justify-center">
+    <div class="flex items-center justify-center">
         <div class="max-w-md w-full space-y-8 p-8">
             <div class="text-center">
                 <h1 class="text-4xl font-bold text-indigo-600 mb-2">LazzHub</h1>
@@ -55,6 +46,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
 @endsection

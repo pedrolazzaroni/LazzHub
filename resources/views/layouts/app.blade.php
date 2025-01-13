@@ -7,7 +7,7 @@
     <title>{{ config('app.name') }} - @yield('title')</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 flex flex-col min-h-screen"> <!-- Added flex, flex-col, and min-h-screen -->
     <!-- Notificação -->
     <div id="notification" class="fixed top-4 right-0 transform translate-x-full transition-all duration-300 ease-in-out z-50">
         <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg">
@@ -50,12 +50,12 @@
     </nav>
 
     <!-- Conteúdo principal -->
-    <main>
+    <main class="flex-grow"> <!-- Added flex-grow -->
         @yield('content')
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white mt-8 py-4">
+    <footer class="bg-white py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-center text-gray-500">
                 &copy; {{ date('Y') }} {{ config('app.name') }}. Todos os direitos reservados.
