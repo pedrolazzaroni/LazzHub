@@ -4,55 +4,56 @@
 
 @section('content')
 <div class="py-12">
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 ">
-        @foreach($questoes as $questao)
-            <div class="bg-white shadow-lg sm:rounded-lg p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4 print-up">Questão #{{ $questao->id }}</h2>
-                @if($questao->gemini_response)
-                    <div class="mb-4 ">
+    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white shadow-lg sm:rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 print-up">Questões</h2>
+            @foreach($questoes as $questao)
+                <div class="mb-4">
+                    <h3 class="text-xl font-semibold text-gray-700">Questão #{{ $questao->id }}</h3>
+                    @if($questao->gemini_response)
                         @php
                             $formattedResponse = preg_replace('/\*\*(.*?)\*\*/', '<br><strong>$1</strong><br>', $questao->gemini_response);
                         @endphp
-                        <p class="text-gray-600 mt-[-30px]">{!! $formattedResponse !!}</p>
-                    </div>
-                @else
-                    <div class="mb-4">
+                        <p class="text-gray-600">{!! $formattedResponse !!}</p>
+                    @else
                         <p class="text-gray-700"><strong>Questão:</strong> <span class="text-red-500">Não disponível.</span></p>
-                    </div>
-                @endif
+                    @endif
+                </div>
+            @endforeach
 
-                <div class="mt-8 border-t pt-6 flex justify-between print-hide">
-                    <div>
-                        <a href="{{ route('questoes.create') }}"
-                            class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                            Criar Nova Questão
-                        </a>
-                        <button onclick="copyToClipboard({{ $questao->id }})"
-                            class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                            Copiar Questão
-                        </button>
-                        <button onclick="window.print()"
-                            class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
-                            Imprimir Questão
-                        </button>
-                    </div>
+            <div class="mt-8 border-t pt-6 flex justify-between print-hide">
+                <div>
+                    <a href="{{ route('questoes.create') }}"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Criar Nova Questão
+                    </a>
+                    <button onclick="copyToClipboard()"
+                        class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Copiar Questões
+                    </button>
+                    <button onclick="window.print()"
+                        class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                        Imprimir Questões
+                    </button>
                 </div>
             </div>
-        @endforeach
+        </div>
     </div>
 </div>
 
 <script>
-    function copyToClipboard(id) {
-        const questao = @json($questoes->keyBy('id'));
-        const selectedQuestao = questao[id];
+    function copyToClipboard() {
+        const questoes = @json($questoes);
+        let conteudo = '';
 
-        const conteudo = `Questão: ${selectedQuestao.gemini_response}`;
+        questoes.forEach(questao => {
+            conteudo += `Questão #${questao.id}:\n${questao.gemini_response}\n\n`;
+        });
 
         navigator.clipboard.writeText(conteudo).then(() => {
-            alert('Questão copiada para a área de transferência!');
+            alert('Questões copiadas para a área de transferência!');
         }).catch(err => {
-            alert('Erro ao copiar a questão.');
+            alert('Erro ao copiar as questões.');
         });
     }
 </script>

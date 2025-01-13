@@ -86,9 +86,16 @@ class ResumoController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        // Group questions by creation minute
+        $groupedQuestoes = $questoes->groupBy(function($item) {
+            return $item->created_at->format('Y-m-d H:i');
+        });
+
         // Combine and sort both collections by created_at
-        $items = $resumos->concat($questoes)->sortByDesc('created_at');
-        
+        $items = $resumos->concat($groupedQuestoes)->sortByDesc(function($item) {
+            return $item instanceof \Illuminate\Support\Collection ? $item->first()->created_at : $item->created_at;
+        });
+
         // Paginate the combined collection
         $perPage = 9;
         $page = request()->get('page', 1);

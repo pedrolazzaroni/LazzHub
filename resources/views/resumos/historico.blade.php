@@ -16,30 +16,48 @@
                 @else
                     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
                         @foreach($items as $item)
-                            <a href="{{ get_class($item) === 'App\Models\Resumo' ? route('resumo.show', $item->id) : route('questoes.show', $item->id) }}" class="bg-indigo-500 rounded-lg border shadow-lg hover:shadow-xl transition-transform transform hover:scale-105"> <!-- Added hover:scale-105 -->
-                                <div class="p-5">
-                                    <div class="mb-2">
-                                        <span class="px-2 py-1 text-xs font-semibold rounded-full
-                                            {{ get_class($item) === 'App\Models\Resumo' ?
-                                                'bg-blue-100 text-blue-800' :
-                                                'bg-green-100 text-green-800' }}">
-                                            {{ get_class($item) === 'App\Models\Resumo' ? 'Resumo' : 'Questão' }}
-                                        </span>
+                            @if($item instanceof \Illuminate\Support\Collection)
+                                <a href="{{ route('questoes.show', $item->pluck('id')->implode(',')) }}" class="relative bg-indigo-500 rounded-lg border shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
+                                    <div class="p-5">
+                                        <div class="flex justify-between items-center mb-4">
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                                Questão
+                                            </span>
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-white text-indigo-500">
+                                                {{ $item->count() }}
+                                            </span>
+                                        </div>
+                                        <div class="mb-4">
+                                            <h3 class="text-lg font-semibold text-white mb-2">{{ $item->first()->materia }}</h3> <!-- Changed to text-white -->
+                                            <p class="text-sm text-gray-200 mb-3"> <!-- Changed to text-gray-200 -->
+                                                Nível: {{ $item->first()->nivel }}
+                                            </p>
+                                            <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
+                                                Criado em {{ $item->first()->created_at->format('d/m/Y H:i') }}
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    <h3 class="text-lg font-semibold text-white mb-2">{{ $item->materia }}</h3> <!-- Changed to text-white -->
-                                    <p class="text-sm text-gray-200 mb-3"> <!-- Changed to text-gray-200 -->
-                                        @if(get_class($item) === 'App\Models\Resumo')
-                                            {{ $item->curso }}
-                                        @else
-                                            Nível: {{ $item->nivel }}
-                                        @endif
-                                    </p>
-                                    <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
-                                        Criado em {{ $item->created_at->format('d/m/Y H:i') }}
+                                </a>
+                            @else
+                                <a href="{{ route('resumo.show', $item->id) }}" class="relative bg-indigo-500 rounded-lg border shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
+                                    <div class="p-5">
+                                        <div class="flex justify-between items-center mb-4">
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                Resumo
+                                            </span>
+                                        </div>
+                                        <div class="mb-4">
+                                            <h3 class="text-lg font-semibold text-white mb-2">{{ $item->materia }}</h3> <!-- Changed to text-white -->
+                                            <p class="text-sm text-gray-200 mb-3"> <!-- Changed to text-gray-200 -->
+                                                {{ $item->curso }}
+                                            </p>
+                                            <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
+                                                Criado em {{ $item->created_at->format('d/m/Y H:i') }}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                            @endif
                         @endforeach
                     </div>
 
