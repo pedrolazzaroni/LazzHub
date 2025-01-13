@@ -10,14 +10,12 @@
                 <h1 class="text-2xl font-bold text-gray-900">{{ $resumo['materia'] }}</h1>
 
                 @php
-                    // Função para converter **texto** em <strong>texto</strong> e adicionar quebras de linha
                     $formattedContent = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong><br>', $resumo->content);
                 @endphp
 
                 <p class="mt-1 text-sm text-gray-600">Conteúdo: {!! nl2br($formattedContent) !!}</p>
                 <p class="text-sm text-gray-500">Nível: {{ ucfirst($resumo['nivel']) }}</p>
 
-                <!-- Rodapé de Ações no Topo -->
                 <div class="mt-8 border-t pt-6 flex justify-between print-hide">
                     <div>
                         <button onclick="window.history.back()" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -32,7 +30,6 @@
                     </div>
                 </div>
 
-                <!-- Notificação -->
                 <div id="notification" class="fixed right-5 top-20 hidden bg-green-500 text-white p-3 rounded-md shadow-md">
                     Resumo copiado para a área de transferência!
                 </div>
@@ -52,9 +49,9 @@
     }
 
     function copyToClipboard() {
-        const content = document.querySelector('p.mt-1.text-sm.text-gray-600').innerText; // Seleciona o conteúdo do resumo
+        const content = document.querySelector('p.mt-1.text-sm.text-gray-600').innerText;
         navigator.clipboard.writeText(content).then(() => {
-            showNotification(); // Mostra a notificação
+            showNotification();
         }).catch(err => {
             console.error('Erro ao copiar texto: ', err);
             alert('Não foi possível copiar o texto. Tente novamente.');
@@ -63,9 +60,9 @@
 
     function showNotification() {
         const notification = document.getElementById('notification');
-        notification.classList.remove('hidden'); // Mostra a notificação
+        notification.classList.remove('hidden');
         setTimeout(() => {
-            notification.classList.add('hidden'); // Esconde a notificação após 3 segundos
+            notification.classList.add('hidden'); 
         }, 500);
     }
 </script>

@@ -16,7 +16,6 @@
                         @foreach($items as $item)
                             <div class="bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow">
                                 <div class="p-5">
-                                    <!-- Label to identify content type -->
                                     <div class="mb-2">
                                         <span class="px-2 py-1 text-xs font-semibold rounded-full
                                             {{ get_class($item) === 'App\Models\Resumo' ?
@@ -51,11 +50,9 @@
                         @endforeach
                     </div>
 
-                    <!-- Paginação Estilizada -->
                     <div class="mt-6">
                         @if ($items->hasPages())
                             <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-center">
-                                {{-- Previous Page Link --}}
                                 @if ($items->onFirstPage())
                                     <span class="px-3 py-1 bg-gray-100 text-gray-400 rounded-l-md cursor-not-allowed">
                                         Anterior
@@ -66,8 +63,6 @@
                                         Anterior
                                     </a>
                                 @endif
-
-                                {{-- Pagination Elements --}}
                                 <div class="flex items-center">
                                     @foreach ($items->getUrlRange(1, $items->lastPage()) as $page => $url)
                                         @if ($page == $items->currentPage())
@@ -82,8 +77,6 @@
                                         @endif
                                     @endforeach
                                 </div>
-
-                                {{-- Next Page Link --}}
                                 @if ($items->hasMorePages())
                                     <a href="{{ $items->nextPageUrl() }}"
                                        class="px-3 py-1 bg-indigo-600 text-white rounded-r-md hover:bg-indigo-700 transition duration-150 ease-in-out">

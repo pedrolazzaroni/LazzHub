@@ -7,8 +7,7 @@
     <title>{{ config('app.name') }} - @yield('title')</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-100 flex flex-col min-h-screen"> <!-- Added flex, flex-col, and min-h-screen -->
-    <!-- Notificação -->
+<body class="bg-gray-100 flex flex-col min-h-screen">
     <div id="notification" class="fixed top-4 right-0 transform translate-x-full transition-all duration-300 ease-in-out z-50">
         <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg">
             <div class="flex items-center">
@@ -20,7 +19,6 @@
         </div>
     </div>
 
-    <!-- Navbar -->
     <nav class="bg-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
@@ -49,12 +47,10 @@
         </div>
     </nav>
 
-    <!-- Conteúdo principal -->
-    <main class="flex-grow"> <!-- Added flex-grow -->
+    <main class="flex-grow">
         @yield('content')
     </main>
 
-    <!-- Footer -->
     <footer class="bg-white py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-center text-gray-500">
@@ -70,23 +66,18 @@
             const notification = document.getElementById('notification');
             const messageElement = document.getElementById('notificationMessage');
 
-            // Define a mensagem
             messageElement.textContent = message;
 
-            // Remove classes anteriores
             notification.querySelector('div').className = 'p-4 rounded shadow-lg flex items-center';
 
-            // Adiciona classes baseadas no tipo
             if (type === 'success') {
                 notification.querySelector('div').classList.add('bg-green-100', 'border-l-4', 'border-green-500', 'text-green-700');
             } else if (type === 'error') {
                 notification.querySelector('div').classList.add('bg-red-100', 'border-l-4', 'border-red-500', 'text-red-700');
             }
 
-            // Mostra a notificação
             notification.classList.remove('translate-x-full');
 
-            // Esconde a notificação após 3 segundos
             setTimeout(() => {
                 notification.classList.add('translate-x-full');
             }, 3000);
@@ -96,28 +87,22 @@
     @push('styles')
     <style>
         @media print {
-            /* Hide all elements with the 'no-print' class */
             .no-print {
                 display: none;
             }
 
-            /* Hide the footer */
             footer {
                 display: none;
             }
 
-            /* Ensure the logo is visible */
             .logo {
                 display: block;
             }
 
-            /* Optional: Adjust main content styling for print */
             main {
                 margin: 0;
                 padding: 0;
             }
-
-            /* Optional: Remove shadows and borders for a cleaner print */
             .bg-white {
                 box-shadow: none;
                 border: none;

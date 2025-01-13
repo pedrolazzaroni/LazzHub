@@ -10,7 +10,6 @@
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4 print-up">Questão #{{ $questao->id }}</h2>
                 @if($questao->gemini_response)
                     <div class="mb-4 ">
-                        {{-- Questão --}}
                         @php
                             $formattedResponse = preg_replace('/\*\*(.*?)\*\*/', '<br><strong>$1</strong><br>', $questao->gemini_response);
                         @endphp
@@ -18,12 +17,10 @@
                     </div>
                 @else
                     <div class="mb-4">
-                        {{-- Questão não disponível --}}
                         <p class="text-gray-700"><strong>Questão:</strong> <span class="text-red-500">Não disponível.</span></p>
                     </div>
                 @endif
 
-                <!-- Rodapé de Ações no Topo -->
                 <div class="mt-8 border-t pt-6 flex justify-between print-hide">
                     <div>
                         <a href="{{ route('questoes.create') }}"

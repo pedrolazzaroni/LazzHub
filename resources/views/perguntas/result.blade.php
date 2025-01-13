@@ -6,27 +6,26 @@
 <style>
     @media print {
         .print-hide {
-            display: none; /* Oculta os elementos com a classe 'print-hide' durante a impressão */
+            display: none;
         }
         .header {
-            box-shadow: none; /* Remove a sombra do cabeçalho */
-            background-color: #6f42c1; /* Mantém a cor de fundo */
-            color: white; /* Mantém a cor do texto */
-            text-align: center; /* Centraliza o texto do cabeçalho */
+            box-shadow: none;
+            background-color: #6f42c1;
+            color: white;
+            text-align: center;
         }
         .header h1 {
-            margin: 0; /* Remove margens do título */
+            margin: 0;
         }
         .bg-white {
-            box-shadow: none; /* Remove o efeito de card do conteúdo */
-            border: none; /* Remove a borda do card */
+            box-shadow: none;
+            border: none;
         }
-        /* Oculta os botões de dashboard, histórico e sair */
         .dashboard-buttons {
-            display: none; /* Adicione a classe 'dashboard-buttons' aos botões que você deseja ocultar */
+            display: none;
         }
         .print-up {
-            margin-top: -20px; /* Adiciona margem superior de 100px */
+            margin-top: -20px;
         }
     }
 </style>
@@ -40,13 +39,11 @@
                 <div class="mt-4">
                     <h3 class="text-lg font-medium">Resposta:</h3>
                     @php
-                    // Função para converter **texto** em <strong>texto</strong>
                     $pergunta->descricao = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $pergunta->descricao);
-                    $text = nl2br($pergunta->descricao); // Converte quebras de linha
+                    $text = nl2br($pergunta->descricao);
                     @endphp
                     <p>{!! $text !!}</p>
 
-                <!-- Rodapé de Ações no Topo -->
                 <div class="mt-8 border-t pt-6 flex justify-between print-hide">
                     <div>
                         <button onclick="window.history.back()" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -61,7 +58,6 @@
                     </div>
                 </div>
 
-                <!-- Notificação -->
                 <div id="notification" class="fixed right-5 top-20 hidden bg-green-500 text-white p-3 rounded-md shadow-md">
                     Resposta copiada para a área de transferência!
                 </div>
@@ -73,9 +69,9 @@
 @push('scripts')
 <script>
     function copyToClipboard() {
-        const content = document.querySelector('p').innerText; // Seleciona o conteúdo da resposta
+        const content = document.querySelector('p').innerText;
         navigator.clipboard.writeText(content).then(() => {
-            showNotification(); // Mostra a notificação
+            showNotification();
         }).catch(err => {
             console.error('Erro ao copiar texto: ', err);
             alert('Não foi possível copiar o texto. Tente novamente.');
@@ -84,9 +80,9 @@
 
     function showNotification() {
         const notification = document.getElementById('notification');
-        notification.classList.remove('hidden'); // Mostra a notificação
+        notification.classList.remove('hidden');
         setTimeout(() => {
-            notification.classList.add('hidden'); // Esconde a notificação após 3 segundos
+            notification.classList.add('hidden');
         }, 3000);
     }
 </script>

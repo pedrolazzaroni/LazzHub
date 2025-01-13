@@ -4,7 +4,6 @@
 
 @section('content')
 <div class="py-12">
-    <!-- Modal de Carregamento -->
     <div id="loadingModal" class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity hidden z-50">
         <div class="fixed inset-0 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center">
@@ -25,7 +24,6 @@
                 <h2 class="text-2xl font-semibold text-gray-800 mb-6 opacity-0 transform translate-y-4 transition-all duration-500" id="title">
                     Faça sua Pergunta
                 </h2>
-
                 <form id="perguntaForm" action="{{ route('pergunta.ask') }}" method="POST" class="space-y-6">
                     @csrf
                     <div class="opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 200ms">
@@ -64,14 +62,12 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Animação de entrada dos elementos
         setTimeout(() => {
             document.querySelectorAll('.opacity-0').forEach(el => {
                 el.classList.remove('opacity-0', 'translate-y-4');
             });
         }, 100);
 
-        // Contador de caracteres para pergunta
         const perguntaInput = document.getElementById('pergunta');
         const perguntaCount = document.getElementById('perguntaCount');
 
@@ -84,7 +80,6 @@
                 perguntaCount.classList.remove('text-red-500');
             }
         });
-
 
         const loadingTexts = [
             "Analisando a pergunta...",
@@ -102,7 +97,6 @@
             const loadingText = document.getElementById('loadingText');
             modal.classList.remove('hidden');
 
-            // Atualiza o texto de carregamento a cada 2 segundos
             loadingInterval = setInterval(() => {
                 currentTextIndex = (currentTextIndex + 1) % loadingTexts.length;
                 loadingText.textContent = loadingTexts[currentTextIndex];
@@ -115,12 +109,10 @@
             clearInterval(loadingInterval);
         }
 
-        // Efeito de envio do formulário
         const form = document.getElementById('perguntaForm');
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            // Adiciona classe de loading ao botão
             const button = this.querySelector('button[type="submit"]');
             button.classList.add('opacity-75', 'cursor-not-allowed');
             button.disabled = true;

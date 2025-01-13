@@ -4,7 +4,6 @@
 
 @section('content')
 <div class="py-12">
-    <!-- Modal de Carregamento -->
     <div id="loadingModal" class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity hidden z-50">
         <div class="fixed inset-0 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center">
@@ -91,14 +90,12 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Animação de entrada dos elementos
         setTimeout(() => {
             document.querySelectorAll('.opacity-0').forEach(el => {
                 el.classList.remove('opacity-0', 'translate-y-4');
             });
         }, 100);
 
-        // Contador de caracteres para matéria
         const materiaInput = document.getElementById('materia');
         const materiaCount = document.getElementById('materiaCount');
 
@@ -112,7 +109,6 @@
             }
         });
 
-        // Contador de caracteres para curso
         const cursoInput = document.getElementById('curso');
         const cursoCount = document.getElementById('cursoCount');
 
@@ -126,14 +122,13 @@
             }
         });
 
-        // Contador de caracteres para conteúdo
         const conteudoInput = document.getElementById('conteudo');
         const conteudoCount = document.getElementById('conteudoCount');
 
         conteudoInput.addEventListener('input', function() {
             conteudoCount.textContent = this.value.length;
 
-            if (this.value.length >= 270) { // Updated threshold
+            if (this.value.length >= 270) {
                 conteudoCount.classList.add('text-red-500');
             } else {
                 conteudoCount.classList.remove('text-red-500');
@@ -156,7 +151,6 @@
             const loadingText = document.getElementById('loadingText');
             modal.classList.remove('hidden');
 
-            // Atualiza o texto de carregamento a cada 2 segundos
             loadingInterval = setInterval(() => {
                 currentTextIndex = (currentTextIndex + 1) % loadingTexts.length;
                 loadingText.textContent = loadingTexts[currentTextIndex];
@@ -221,12 +215,10 @@
             }
         }
 
-        // Efeito de envio do formulário
         const form = document.getElementById('resumoForm');
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            // Adiciona classe de loading ao botão
             const button = this.querySelector('button[type="submit"]');
             button.classList.add('opacity-75', 'cursor-not-allowed');
             button.disabled = true;

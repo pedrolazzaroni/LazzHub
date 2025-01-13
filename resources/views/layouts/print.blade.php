@@ -1,27 +1,26 @@
 <style>
     @media print {
         .print-hide {
-            display: none; /* Oculta os elementos com a classe 'print-hide' durante a impressão */
+            display: none;
         }
         .header {
-            box-shadow: none; /* Remove a sombra do cabeçalho */
-            background-color: #6f42c1; /* Mantém a cor de fundo */
-            color: white; /* Mantém a cor do texto */
-            text-align: center; /* Centraliza o texto do cabeçalho */
+            box-shadow: none; /
+            background-color: #6f42c1;
+            color: white;
+            text-align: center;
         }
         .header h1 {
-            margin: 0; /* Remove margens do título */
+            margin: 0;
         }
         .bg-white {
-            box-shadow: none; /* Remove o efeito de card do conteúdo */
-            border: none; /* Remove a borda do card */
+            box-shadow: none;
+            border: none;
         }
-        /* Oculta os botões de dashboard, histórico e sair */
         .dashboard-buttons {
-            display: none; /* Adicione a classe 'dashboard-buttons' aos botões que você deseja ocultar */
+            display: none;
         }
         .print-up {
-            margin-top: -20px; /* Adiciona margem superior de 100px */
+            margin-top: -20px;
         }
 
     }

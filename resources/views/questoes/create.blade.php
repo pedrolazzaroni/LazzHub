@@ -4,7 +4,6 @@
 
 @section('content')
 <div class="py-12">
-    <!-- Modal de Carregamento -->
     <div id="loadingModal" class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity hidden z-50">
         <div class="fixed inset-0 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center">
@@ -29,9 +28,7 @@
                 <form action="{{ route('questoes.store') }}" method="POST" class="space-y-6" id="questaoForm">
                     @csrf
 
-                    <!-- Campos Matéria e Quantidade Lado a Lado -->
                     <div class="flex flex-col md:flex-row md:space-x-6">
-                        <!-- Campo Matéria -->
                         <div class="w-full md:w-3/4 mb-4 md:mb-0">
                             <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
                             <input type="text" name="materia" id="materia" required maxlength="255"
@@ -42,7 +39,6 @@
                             </p>
                         </div>
 
-                        <!-- Campo Quantidade de Questões -->
                         <div class="w-full md:w-1/4">
                             <label for="quantidade" class="block text-sm font-medium text-gray-800">Quantidade de Questões</label>
                             <select name="quantidade" id="quantidade" required
@@ -57,9 +53,7 @@
                         </div>
                     </div>
 
-                    <!-- Agrupar campos Tipo e Nível lado a lado -->
                     <div class="flex flex-col md:flex-row md:space-x-6">
-                        <!-- Campo Tipo da Questão -->
                         <div class="w-full md:w-1/2">
                             <label for="tipo" class="block text-sm font-medium text-gray-800">Tipo da Questão</label>
                             <select name="tipo" id="tipo" required
@@ -73,7 +67,6 @@
                             </p>
                         </div>
 
-                        <!-- Campo Nível de Dificuldade -->
                         <div class="w-full md:w-1/2">
                             <label for="nivel" class="block text-sm font-medium text-gray-800">Nível de Dificuldade</label>
                             <select name="nivel" id="nivel" required
@@ -88,7 +81,6 @@
                         </div>
                     </div>
 
-                    <!-- Campo Conteúdo da Questão -->
                     <div class="w-full">
                         <label for="conteudo" class="block text-sm font-medium text-gray-800">Conteúdo da Questão</label>
                         <textarea name="conteudo" id="conteudo" rows="4" required maxlength="1000"
@@ -98,8 +90,6 @@
                             <span id="conteudoCount">0</span>/1000 caracteres
                         </p>
                     </div>
-
-                    <!-- Botão de Submissão -->
                     <div class="flex justify-end">
                         <button type="submit"
                             class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-white transition-all duration-300 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -114,33 +104,29 @@
 
 @push('scripts')
 <script>
-// filepath: /c:/xampp/htdocs/Laravel/LazzHub/resources/views/questoes/create.blade.php
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM completamente carregado e analisado');
-
-    // Contador de caracteres para Matéria
     const materiaInput = document.getElementById('materia');
     const materiaCount = document.getElementById('materiaCount');
 
     materiaInput.addEventListener('input', function() {
         materiaCount.textContent = this.value.length;
 
-        if (this.value.length >= 230) { // Limite ajustado para manter 255 no total
+        if (this.value.length >= 230) {
             materiaCount.classList.add('text-red-500');
         } else {
             materiaCount.classList.remove('text-red-500');
         }
     });
 
-    // Contador de caracteres para Conteúdo
     const conteudoInput = document.getElementById('conteudo');
     const conteudoCount = document.getElementById('conteudoCount');
 
     conteudoInput.addEventListener('input', function() {
         conteudoCount.textContent = this.value.length;
 
-        if (this.value.length >= 900) { // Limite ajustado para manter 1000 no total
+        if (this.value.length >= 900) {
             conteudoCount.classList.add('text-red-500');
         } else {
             conteudoCount.classList.remove('text-red-500');
@@ -163,7 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const loadingText = document.getElementById('loadingText');
         modal.classList.remove('hidden');
 
-        // Atualiza o texto de carregamento a cada 2 segundos
         loadingInterval = setInterval(() => {
             currentTextIndex = (currentTextIndex + 1) % loadingTexts.length;
             loadingText.textContent = loadingTexts[currentTextIndex];
@@ -176,12 +161,10 @@ document.addEventListener('DOMContentLoaded', function() {
         clearInterval(loadingInterval);
     }
 
-    // Efeito de envio do formulário
     const form = document.getElementById('questaoForm');
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // Adiciona classe de loading ao botão
         const button = this.querySelector('button[type="submit"]');
         button.classList.add('opacity-75', 'cursor-not-allowed');
         button.disabled = true;

@@ -31,7 +31,6 @@
     </div>
 </div>
 
-<!-- Seção de recursos -->
 <div class="py-12 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="lg:text-center">
@@ -43,7 +42,6 @@
 
         <div class="mt-10">
             <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-                <!-- Gerador de Questões -->
                 <a href="{{ route('questoes.create') }}" class="relative transition-transform transform hover:scale-105 duration-300 border rounded-lg shadow-lg p-6 bg-white hover:bg-indigo-50">
                     <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,7 +56,6 @@
                     </div>
                 </a>
 
-                <!-- Recurso 2: Resumos Inteligentes -->
                 <a href="{{ route('resumo.create') }}" class="relative transition-transform transform hover:scale-105 duration-300 border rounded-lg shadow-lg p-6 bg-white hover:bg-indigo-50">
                     <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
