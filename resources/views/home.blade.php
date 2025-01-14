@@ -3,7 +3,7 @@
 @section('title', 'Bem-vindo')
 
 @section('content')
-<div class="relative bg-indigo-600">
+<div class="relative bg-indigo-600 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 100ms">
     <div class="max-w-7xl mx-auto py-[4.5rem] px-4 sm:px-6 lg:px-8">
         <div class="text-center">
             <h1 class="text-2xl font-extrabold tracking-tight text-white sm:text-3xl md:text-4xl">
@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<div class="py-8 bg-white ">
+<div class="py-8 bg-white opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 200ms">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="lg:text-center">
             <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Recursos</h2>
@@ -74,4 +74,16 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        document.querySelectorAll('.opacity-0').forEach(el => {
+            el.classList.remove('opacity-0', 'translate-y-4');
+        });
+    }, 100);
+});
+</script>
+@endpush
 @endsection

@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="py-8">
+<div class="py-8 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 100ms">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white shadow-lg sm:rounded-lg mb-4 p-4">
             <h3 class="text-lg font-semibold text-indigo-600 mb-4 text-center">Para Estudantes</h3>
@@ -80,7 +80,18 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        document.querySelectorAll('.opacity-0').forEach(el => {
+            el.classList.remove('opacity-0', 'translate-y-4');
+        });
+    }, 100);
+});
+</script>
+@endpush
 @endsection

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerguntaController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResumoController;
 use App\Http\Controllers\QuestaoController;
 
@@ -19,6 +20,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
 });
+
+// Rotas para perfil
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
 // Rotas protegidas
 Route::middleware('auth')->group(function () {

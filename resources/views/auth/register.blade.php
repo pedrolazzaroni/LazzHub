@@ -3,7 +3,7 @@
 @section('title', 'Registro')
 
 @section('content')
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 100ms">
         <div class="max-w-2xl w-full space-y-8 p-8">
             <div class="text-center">
                 <h1 class="text-4xl font-bold text-indigo-600 mb-2">LazzHub</h1>
@@ -63,4 +63,16 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            document.querySelectorAll('.opacity-0').forEach(el => {
+                el.classList.remove('opacity-0', 'translate-y-4');
+            });
+        }, 100);
+    });
+    </script>
+    @endpush
 @endsection
