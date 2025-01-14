@@ -29,7 +29,7 @@
                     @csrf
 
                     <div class="grid grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
-                        <div class="bg-white shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
                             <div class="w-full">
                                 <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
                                 <input type="text" name="materia" id="materia" required maxlength="255"
@@ -41,7 +41,7 @@
                             </div>
                         </div>
 
-                        <div class="bg-white shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
                             <div class="w-full">
                                 <label for="quantidade" class="block text-sm font-medium text-gray-800">Quantidade de Questões</label>
                                 <select name="quantidade" id="quantidade" required
@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mt-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
-                        <div class="bg-white shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
                             <label for="tipo" class="block text-sm font-medium text-gray-800">Tipo da Questão</label>
                             <select name="tipo" id="tipo" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -71,7 +71,7 @@
                             </p>
                         </div>
 
-                        <div class="bg-white shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
                             <label for="nivel" class="block text-sm font-medium text-gray-800">Nível de Dificuldade</label>
                             <select name="nivel" id="nivel" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -85,7 +85,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-white shadow-lg p-4 rounded-md mt-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 900ms">
+                    <div class="bg-blue-50 shadow-lg p-4 rounded-md mt-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 900ms">
                         <label for="conteudo" class="block text-sm font-medium text-gray-800">Conteúdo da Questão</label>
                         <textarea name="conteudo" id="conteudo" rows="4" required maxlength="1000"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
