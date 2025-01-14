@@ -13,34 +13,25 @@ use App\Services\GeminiService;
 class QuestaoController extends Controller
 {
     protected $geminiService;
-    protected $generatedQuestions = [];  // Array to store generated questions
+    protected $generatedQuestions = []; 
     protected $correctAnswerOptions = ['A', 'B', 'C', 'D', 'E'];
-    protected $similarityThreshold = 0.7; // Threshold for similarity check (70%)
+    protected $similarityThreshold = 0.7;
 
     public function __construct(GeminiService $geminiService)
     {
         $this->geminiService = $geminiService;
     }
 
-    /**
-     * Show the form for creating a new Questao.
-     */
     public function create()
     {
-        // Add debug to verify method is being called
         Log::info('QuestaoController@create method called');
         return view('questoes.create');
     }
 
-    /**
-     * Store a newly created Questao(s) in storage.
-     */
     public function store(Request $request): JsonResponse
     {
-        // Log para verificar os dados recebidos na requisição
         Log::info('Dados da requisição para criar Questao(s):', $request->all());
 
-        // Verificar se 'materia' está presente e não está vazio
         if (!$request->filled('materia')) {
             Log::error('Campo "materia" está vazio ou ausente.');
             return response()->json(['error' => 'O campo "Matéria" é obrigatório.'], 422);
@@ -50,8 +41,8 @@ class QuestaoController extends Controller
             'conteudo' => 'required|string|max:1000',
             'materia' => 'required|string|max:255',
             'nivel' => 'required|in:Muito Fácil,Fácil,Médio,Difícil,Muito Difícil',
-            'quantidade' => 'required|integer|min:1|max:10', // Validação para quantidade
-            'tipo' => 'required|in:multipla_escolha,discurssiva', // Validação para o novo campo
+            'quantidade' => 'required|integer|min:1|max:10',
+            'tipo' => 'required|in:multipla_escolha,discurssiva',
         ]);
 
         $quantidade = $request->quantidade;
@@ -60,10 +51,9 @@ class QuestaoController extends Controller
         DB::beginTransaction();
 
         try {
-            $this->generatedQuestions = []; // Reset the array for this batch
+            $this->generatedQuestions = [];
 
             for ($i = 0; $i < $quantidade; $i++) {
-                // Generate question with embedded answer and validate uniqueness
                 $attempts = 0;
                 $maxAttempts = 5;
 
@@ -80,7 +70,6 @@ class QuestaoController extends Controller
                     $questaoCompleta = $this->geminiService->generateContent($prompts['questao']);
                     $attempts++;
 
-                    // Check for similarity with previous questions
                     $isSimilar = $this->isQuestionSimilar($questaoCompleta, $this->generatedQuestions);
 
                     if ($attempts >= $maxAttempts && $isSimilar) {
@@ -89,14 +78,12 @@ class QuestaoController extends Controller
 
                 } while ($isSimilar && $attempts < $maxAttempts);
 
-                // Add to generated questions array
                 $this->generatedQuestions[] = $questaoCompleta;
 
                 if (!$questaoCompleta) {
                     throw new \Exception('Falha ao gerar questão.');
                 }
 
-                // Save the combined question and answer
                 $questao = Questao::create([
                     'conteudo' => $request->conteudo,
                     'materia' => $request->materia,
@@ -118,16 +105,10 @@ class QuestaoController extends Controller
             return response()->json(['error' => 'Falha ao gerar questão: ' . $e->getMessage()], 500);
         }
     }
-
-    /**
-     * Display the specified Questao(s).
-     */
     public function show($ids)
     {
-        // Dividir os IDs separados por vírgula
         $idArray = explode(',', $ids);
 
-        // Buscar as Questões correspondentes
         $questoes = Questao::whereIn('id', $idArray)->get();
 
         if ($questoes->isEmpty()) {
@@ -136,10 +117,6 @@ class QuestaoController extends Controller
 
         return view('questoes.show', compact('questoes'));
     }
-
-    /**
-     * Gerar o prompt para a API do Gemini.
-     */
     protected function generatePrompt($materia, $conteudo, $nivel, $tipo, $questionNumber, $totalQuestions)
     {
         $tipoDescricao = $tipo === 'multipla_escolha' ? 'Múltipla Escolha' : 'Discursiva/Prática';
@@ -163,7 +140,6 @@ class QuestaoController extends Controller
             "[RESPOSTA CORRETA]\n" .
             "Lembre-se: Não use palavras em negrito, itálico ou sublinhado.";
         }
-
         return [
             'questao' => $promptQuestao,
         ];

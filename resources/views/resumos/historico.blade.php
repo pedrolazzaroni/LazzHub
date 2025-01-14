@@ -3,9 +3,9 @@
 @section('title', 'Histórico')
 
 @section('content')
-<div class="py-12 overflow-hidden"> <!-- Added overflow-hidden -->
+<div class="py-12 overflow-hidden">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 100ms">
-        <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg"> <!-- Changed to bg-white -->
+        <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
             <div class="p-6 bg-blue-50 border-b border-gray-300 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 300ms">
                 <h2 class="text-2xl font-semibold text-gray-700 mb-6 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 400ms" id="title">
                     Meu Histórico
@@ -29,11 +29,11 @@
                                                 </span>
                                             </div>
                                             <div class="mb-4">
-                                                <h3 class="text-lg font-semibold text-white mb-2">{{ $item->first()->materia }}</h3> <!-- Changed to text-white -->
-                                                <p class="text-sm text-gray-200 mb-3"> <!-- Changed to text-gray-200 -->
+                                                <h3 class="text-lg font-semibold text-white mb-2">{{ $item->first()->materia }}</h3>
+                                                <p class="text-sm text-gray-200 mb-3">
                                                     Nível: {{ $item->first()->nivel }}
                                                 </p>
-                                                <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
+                                                <div class="text-xs text-gray-300 mb-4">
                                                     Criado em {{ $item->first()->created_at->format('d/m/Y H:i') }}
                                                 </div>
                                             </div>
@@ -48,8 +48,8 @@
                                                 </span>
                                             </div>
                                             <div class="mb-4">
-                                                <h3 class="text-lg font-semibold text-white mb-2">{{ $item->first()->titulo }}</h3> <!-- Changed to text-white -->
-                                                <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
+                                                <h3 class="text-lg font-semibold text-white mb-2">{{ $item->first()->titulo }}</h3>
+                                                <div class="text-xs text-gray-300 mb-4">
                                                     Criado em {{ $item->first()->created_at->format('d/m/Y H:i') }}
                                                 </div>
                                             </div>
@@ -65,11 +65,11 @@
                                             </span>
                                         </div>
                                         <div class="mb-4">
-                                            <h3 class="text-lg font-semibold text-white mb-2">{{ $item->materia }}</h3> <!-- Changed to text-white -->
-                                            <p class="text-sm text-gray-200 mb-3"> <!-- Changed to text-gray-200 -->
+                                            <h3 class="text-lg font-semibold text-white mb-2">{{ $item->materia }}</h3>
+                                            <p class="text-sm text-gray-200 mb-3">
                                                 {{ $item->curso }}
                                             </p>
-                                            <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
+                                            <div class="text-xs text-gray-300 mb-4">
                                                 Criado em {{ $item->created_at->format('d/m/Y H:i') }}
                                             </div>
                                         </div>

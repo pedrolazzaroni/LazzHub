@@ -35,7 +35,6 @@ class PerguntaController extends Controller
             $prompt = "Por favor, responda a seguinte pergunta: " . $validated['pergunta'] .
                      " na sua resposta, utilize um estilo " . $validated['estilo'];
 
-            // Get response directly from Gemini service
             $response = $this->geminiService->generateContent($prompt);
 
             if (!$response) {
@@ -44,11 +43,10 @@ class PerguntaController extends Controller
 
             Log::info('Resposta da API:', ['response' => $response]);
 
-            // Save the response directly without parsing JSON
             $pergunta = Pergunta::create([
                 'user_id' => Auth::id(),
                 'titulo' => $validated['pergunta'],
-                'descricao' => $response, // Store the raw response
+                'descricao' => $response,
                 'estilo' => $validated['estilo'],
             ]);
 

@@ -3,7 +3,7 @@
 @section('title', 'Criar Resumo')
 
 @section('content')
-<div class="py-11 overflow-hidden"> <!-- Added overflow-hidden -->
+<div class="py-11 overflow-hidden">
     <div id="loadingModal" class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity hidden z-50">
         <div class="fixed inset-0 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center">

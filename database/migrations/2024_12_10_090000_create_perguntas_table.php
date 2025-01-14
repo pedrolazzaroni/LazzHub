@@ -13,7 +13,7 @@ class CreatePerguntasTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('titulo');
             $table->text('descricao');
-            $table->string('estilo')->nullable(); // Adiciona a coluna 'estilo'
+            $table->string('estilo')->nullable();
             $table->timestamps();
         });
     }

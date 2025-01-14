@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('questao', function (Blueprint $table) {
             $table->id();
-            $table->text('conteudo'); // Conteúdo da questão
-            $table->string('materia', 255); // Matéria da questão
-            $table->enum('nivel', ['Muito Fácil', 'Fácil', 'Médio', 'Difícil', 'Muito Difícil']); // Nível de dificuldade
+            $table->text('conteudo');
+            $table->string('materia', 255);
+            $table->enum('nivel', ['Muito Fácil', 'Fácil', 'Médio', 'Difícil', 'Muito Difícil']);
             $table->enum('tipo', ['multipla_escolha', 'discurssiva'])->default('discurssiva');
-            $table->text('gemini_response')->nullable(); // Resposta gerada pela API Gemini
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Usuário que criou a questão
+            $table->text('gemini_response')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

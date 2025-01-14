@@ -46,7 +46,6 @@ class ResumoController extends Controller
 
             Log::info('Resposta da API:', ['response' => $response]);
 
-            // Salvar o resumo no banco de dados
             $resumo = Resumo::create([
                 'user_id' => Auth::id(),
                 'content' => $response,
@@ -90,7 +89,6 @@ class ResumoController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Group questions and perguntas by creation minute
         $groupedQuestoes = $questoes->groupBy(function($item) {
             return $item->created_at->format('Y-m-d H:i');
         });
@@ -99,12 +97,10 @@ class ResumoController extends Controller
             return $item->created_at->format('Y-m-d H:i');
         });
 
-        // Combine and sort all collections by created_at
         $items = $resumos->concat($groupedQuestoes)->concat($groupedPerguntas)->sortByDesc(function($item) {
             return $item instanceof \Illuminate\Support\Collection ? $item->first()->created_at : $item->created_at;
         });
 
-        // Paginate the combined collection
         $perPage = 9;
         $page = request()->get('page', 1);
         $items = new \Illuminate\Pagination\LengthAwarePaginator(

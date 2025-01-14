@@ -3,7 +3,7 @@
 @section('title', 'Criar Questão')
 
 @section('content')
-<div class="py-12 overflow-hidden"> <!-- Added overflow-hidden -->
+<div class="py-12 overflow-hidden"> 
     <div id="loadingModal" class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity hidden z-50">
         <div class="fixed inset-0 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center">
@@ -19,7 +19,7 @@
     </div>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 100ms">
-        <div class="bg-blue-50 overflow-hidden shadow-lg sm:rounded-lg"> <!-- Changed to bg-blue-50 -->
+        <div class="bg-blue-50 overflow-hidden shadow-lg sm:rounded-lg">
             <div class="p-6 bg-indigo-500 border-b border-gray-300 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 300ms">
                 <h2 class="text-2xl font-semibold text-white mb-6 opacity-0 transform translate-y-4 transition-all duration-500" id="title">
                     Criar Questão de Prova
@@ -29,7 +29,7 @@
                     @csrf
 
                     <div class="grid grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
-                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md">
                             <div class="w-full">
                                 <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
                                 <input type="text" name="materia" id="materia" required maxlength="255"
@@ -41,7 +41,7 @@
                             </div>
                         </div>
 
-                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md">
                             <div class="w-full">
                                 <label for="quantidade" class="block text-sm font-medium text-gray-800">Quantidade de Questões</label>
                                 <select name="quantidade" id="quantidade" required
@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mt-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
-                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md">
                             <label for="tipo" class="block text-sm font-medium text-gray-800">Tipo da Questão</label>
                             <select name="tipo" id="tipo" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -71,7 +71,7 @@
                             </p>
                         </div>
 
-                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md">
                             <label for="nivel" class="block text-sm font-medium text-gray-800">Nível de Dificuldade</label>
                             <select name="nivel" id="nivel" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
