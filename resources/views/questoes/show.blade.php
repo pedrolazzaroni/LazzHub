@@ -6,10 +6,8 @@
 <div class="py-12">
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white shadow-lg sm:rounded-lg p-6 mb-6">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4 print-up">Questões</h2>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-2 print-up">Questões</h2>
             @foreach($questoes as $questao)
-                <div class="mb-4">
-                    <h3 class="text-xl font-semibold text-gray-700">Questão #{{ $questao->id }}</h3>
                     @if($questao->gemini_response)
                         @php
                             $formattedResponse = preg_replace('/\*\*(.*?)\*\*/', '<br><strong>$1</strong><br>', $questao->gemini_response);
@@ -18,7 +16,6 @@
                     @else
                         <p class="text-gray-700"><strong>Questão:</strong> <span class="text-red-500">Não disponível.</span></p>
                     @endif
-                </div>
             @endforeach
 
             <div class="mt-8 border-t pt-6 flex justify-between print-hide">
