@@ -17,27 +17,45 @@
                     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
                         @foreach($items as $item)
                             @if($item instanceof \Illuminate\Support\Collection)
-                                <a href="{{ route('questoes.show', $item->pluck('id')->implode(',')) }}" class="relative bg-indigo-500 rounded-lg border shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
-                                    <div class="p-5">
-                                        <div class="flex justify-between items-center mb-4">
-                                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                                                Questão
-                                            </span>
-                                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-white text-indigo-500">
-                                                {{ $item->count() }}
-                                            </span>
-                                        </div>
-                                        <div class="mb-4">
-                                            <h3 class="text-lg font-semibold text-white mb-2">{{ $item->first()->materia }}</h3> <!-- Changed to text-white -->
-                                            <p class="text-sm text-gray-200 mb-3"> <!-- Changed to text-gray-200 -->
-                                                Nível: {{ $item->first()->nivel }}
-                                            </p>
-                                            <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
-                                                Criado em {{ $item->first()->created_at->format('d/m/Y H:i') }}
+                                @if($item->first() instanceof \App\Models\Questao)
+                                    <a href="{{ route('questoes.show', $item->pluck('id')->implode(',')) }}" class="relative bg-indigo-500 rounded-lg border shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
+                                        <div class="p-5">
+                                            <div class="flex justify-between items-center mb-4">
+                                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                                    Questão
+                                                </span>
+                                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-white text-indigo-500">
+                                                    {{ $item->count() }}
+                                                </span>
+                                            </div>
+                                            <div class="mb-4">
+                                                <h3 class="text-lg font-semibold text-white mb-2">{{ $item->first()->materia }}</h3> <!-- Changed to text-white -->
+                                                <p class="text-sm text-gray-200 mb-3"> <!-- Changed to text-gray-200 -->
+                                                    Nível: {{ $item->first()->nivel }}
+                                                </p>
+                                                <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
+                                                    Criado em {{ $item->first()->created_at->format('d/m/Y H:i') }}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                @elseif($item->first() instanceof \App\Models\Pergunta)
+                                    <a href="{{ route('pergunta.resultado', $item->pluck('id')->implode(',')) }}" class="relative bg-indigo-500 rounded-lg border shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
+                                        <div class="p-5">
+                                            <div class="flex justify-between items-center mb-4">
+                                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                    Pergunta
+                                                </span>
+                                            </div>
+                                            <div class="mb-4">
+                                                <h3 class="text-lg font-semibold text-white mb-2">{{ $item->first()->titulo }}</h3> <!-- Changed to text-white -->
+                                                <div class="text-xs text-gray-300 mb-4"> <!-- Changed to text-gray-300 -->
+                                                    Criado em {{ $item->first()->created_at->format('d/m/Y H:i') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endif
                             @else
                                 <a href="{{ route('resumo.show', $item->id) }}" class="relative bg-indigo-500 rounded-lg border shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
                                     <div class="p-5">

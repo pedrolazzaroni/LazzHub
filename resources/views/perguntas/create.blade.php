@@ -3,7 +3,7 @@
 @section('title', 'Fazer Pergunta')
 
 @section('content')
-<div class="py-12">
+<div class="py-12 overflow-hidden"> <!-- Added overflow-hidden -->
     <div id="loadingModal" class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity hidden z-50">
         <div class="fixed inset-0 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center">
@@ -18,36 +18,38 @@
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white shadow-lg sm:rounded-lg">
-            <div class="p-6 bg-gray-100 border-b border-gray-300">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-6 opacity-0 transform translate-y-4 transition-all duration-500" id="title">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 100ms">
+        <div class="bg-blue-50 overflow-hidden shadow-lg sm:rounded-lg"> <!-- Changed to bg-blue-50 -->
+            <div class="p-6 bg-indigo-500 border-b border-gray-300 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 300ms">
+                <h2 class="text-2xl font-semibold text-white mb-6 opacity-0 transform translate-y-4 transition-all duration-500" id="title">
                     Faça sua Pergunta
                 </h2>
                 <form id="perguntaForm" action="{{ route('pergunta.ask') }}" method="POST" class="space-y-6">
                     @csrf
-                    <div class="opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 200ms">
-                        <label for="pergunta" class="block text-sm font-medium text-gray-800">Digite sua pergunta:</label>
-                        <input type="text" name="pergunta" id="pergunta" required maxlength="100"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        <p class="mt-1 text-sm text-gray-600">
-                            <span id="perguntaCount">0</span>/100 caracteres
-                        </p>
+                    <div class="grid grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                            <label for="pergunta" class="block text-sm font-medium text-gray-800">Digite sua pergunta:</label>
+                            <input type="text" name="pergunta" id="pergunta" required maxlength="100"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <p class="mt-1 text-sm text-gray-600">
+                                <span id="perguntaCount">0</span>/100 caracteres
+                            </p>
+                        </div>
+
+                        <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
+                            <label for="estilo" class="block text-sm font-medium text-gray-800">Escolha um estilo de resposta:</label>
+                            <select name="estilo" id="estilo" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Selecione um estilo</option>
+                                <option value="formal">Formal</option>
+                                <option value="informal">Informal</option>
+                                <option value="técnico">Técnico</option>
+                                <option value="criativo">Criativo</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 300ms">
-                        <label for="estilo" class="block text-sm font-medium text-gray-800">Escolha um estilo:</label>
-                        <select name="estilo" id="estilo" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            <option value="">Selecione um estilo</option>
-                            <option value="formal">Formal</option>
-                            <option value="informal">Informal</option>
-                            <option value="técnico">Técnico</option>
-                            <option value="criativo">Criativo</option>
-                        </select>
-                    </div>
-
-                    <div class="flex justify-end opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
+                    <div class="flex justify-end opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
                         <button type="submit"
                             class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-white transition-all duration-300 hover:bg-indigo-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Gerar Resposta
