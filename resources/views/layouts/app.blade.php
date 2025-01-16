@@ -25,34 +25,66 @@
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600 logo">
-                            {{ config('app.name') }}
+                            <span class="">{{ config('app.name') }}</span>
                         </a>
                     </div>
                 </div>
 
                 <div class="flex items-center no-print">
                     @auth
-                        <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2 dashboard-buttons {{ request()->routeIs('dashboard') ? 'text-indigo-600 ' : '' }}">Dashboard</a>
-                        <a href="{{ route('resumo.historico') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2 dashboard-buttons {{ request()->routeIs('resumo.historico') ? 'text-indigo-600 ' : '' }}">Histórico</a>
-                        <a href="{{ route('profile') }}" class="flex items-center text-gray-700 hover:text-indigo-600 px-3 py-2">
-                            <span class="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100 border border-indigo-600 transition-transform transform hover:scale-105">
-                                @if(Auth::user()->profile_picture)
-                                    <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="Profile Picture" class="h-full w-full object-cover">
-                                @else
-                                    <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M24 24H0V0h24v24z" fill="none"/>
-                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        <div class="flex items-center space-x-2 sm:space-x-4 justify-between w-full sm:w-auto">
+                            <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-indigo-600 py-2 dashboard-buttons {{ request()->routeIs('dashboard') ? 'text-indigo-600' : '' }}">
+                              <svg class="h-5 w-5 inline-block mr-1 sm:hidden text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="8" height="6" rx="1" />
+                                <rect x="13" y="3" width="8" height="6" rx="1" />
+                                <rect x="3" y="12" width="8" height="9" rx="1" />
+                                <rect x="13" y="12" width="8" height="4" rx="1" />
+                                <rect x="13" y="18" width="8" height="3" rx="1" />
+                            </svg>
+
+
+                                <span class="hidden sm:inline">Dashboard</span>
+                            </a>
+                            <a href="{{ route('resumo.historico') }}" class="text-gray-700 hover:text-indigo-600 py-2 dashboard-buttons hidden sm:inline {{ request()->routeIs('resumo.historico') ? 'text-indigo-600' : '' }}">
+                                <span class="hidden sm:inline">Histórico</span>
+                            </a>
+                            <a href="{{ route('profile') }}" class="flex items-center px-2 text-gray-700 hover:text-indigo-600 py-2">
+                                <span class="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100 border border-indigo-600 transition-transform transform hover:scale-105">
+                                    @if(Auth::user()->profile_picture)
+                                        <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="Profile Picture" class="h-full w-full object-cover">
+                                    @else
+                                        <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M24 24H0V0h24v24z" fill="none"/>
+                                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                        </svg>
+                                    @endif
+                                </span>
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}" class="inline">
+                                @csrf
+                                <button type="submit" class="text-gray-700 hover:text-indigo-600 py-2 dashboard-buttons">
+                                    <svg class="h-5 w-5 inline-block mr-1 sm:hidden text-white bg-indigo-600 rounded-full p-1" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                        <polyline points="16 17 21 12 16 7" />
+                                        <line x1="21" y1="12" x2="9" y2="12" />
                                     </svg>
-                                @endif
-                            </span>
-                        </a>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="text-gray-700 hover:text-indigo-600 px-3 py-2 dashboard-buttons">Sair</button>
-                        </form>
+                                    <span class="hidden sm:inline">Sair</span>
+                                </button>
+                            </form>
+                        </div>
                     @else
-                        <a href="{{ route('login') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2">Login</a>
-                        <a href="{{ route('register') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2">Registro</a>
+                        <a href="{{ route('login') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2">
+                            <svg class="h-5 w-5 inline-block mr-1 sm:hidden" fill="currentColor" viewBox="0 0 24 24">
+                                <!-- SVG de login para dispositivos móveis -->
+                            </svg>
+                            <span class="hidden sm:inline">Login</span>
+                        </a>
+                        <a href="{{ route('register') }}" class="text-gray-700 hover:text-indigo-600 px-3 py-2">
+                            <svg class="h-5 w-5 inline-block mr-1 sm:hidden" fill="currentColor" viewBox="0 0 24 24">
+                                <!-- SVG de registro para dispositivos móveis -->
+                            </svg>
+                            <span class="hidden sm:inline">Registro</span>
+                        </a>
                     @endauth
                 </div>
             </div>

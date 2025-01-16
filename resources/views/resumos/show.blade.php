@@ -16,18 +16,16 @@
                 <p class="mt-1 text-sm text-gray-600">Conteúdo: {!! nl2br($formattedContent) !!}</p>
                 <p class="text-sm text-gray-500">Nível: {{ ucfirst($resumo['nivel']) }}</p>
 
-                <div class="mt-8 border-t pt-6 flex justify-between print-hide">
-                    <div>
-                        <button onclick="window.history.back()" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                            Gerar Novo Resumo
-                        </button>
-                        <button onclick="copyToClipboard()" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                            Copiar Resumo
-                        </button>
-                        <button onclick="window.print()" class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
-                            Imprimir Resumo
-                        </button>
-                    </div>
+                <div class="mt-8 border-t pt-6 flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 print-hide justify-center sm:justify-start">
+                    <button onclick="window.history.back()" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Gerar Novo Resumo
+                    </button>
+                    <button onclick="copyToClipboard()" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Copiar Resumo
+                    </button>
+                    <button onclick="window.print()" class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                        Imprimir Resumo
+                    </button>
                 </div>
 
                 <div id="notification" class="fixed right-5 top-20 hidden bg-green-500 text-white p-3 rounded-md shadow-md">

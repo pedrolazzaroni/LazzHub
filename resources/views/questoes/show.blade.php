@@ -18,39 +18,30 @@
                     @endif
             @endforeach
 
-            <div class="mt-8 border-t pt-6 flex justify-between print-hide">
-                <div>
-                    <a href="{{ route('questoes.create') }}"
-                        class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Criar Nova Questão
-                    </a>
-                    <button onclick="copyToClipboard()"
-                        class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                        Copiar Questões
-                    </button>
-                    <button onclick="window.print()"
-                        class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
-                        Imprimir Questões
-                    </button>
-                </div>
+            <div class="mt-8 border-t pt-6 flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 print-hide justify-center sm:justify-start">
+                <button onclick="window.history.back()" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Gerar Nova Questão
+                </button>
+                <button onclick="copyToClipboard()" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Copiar Questão
+                </button>
+                <button onclick="window.print()" class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                    Imprimir Questão
+                </button>
             </div>
+
         </div>
     </div>
 </div>
 
 <script>
     function copyToClipboard() {
-        const questoes = @json($questoes);
-        let conteudo = '';
-
-        questoes.forEach(questao => {
-            conteudo += `Questão #${questao.id}:\n${questao.gemini_response}\n\n`;
-        });
-
-        navigator.clipboard.writeText(conteudo).then(() => {
-            alert('Questões copiadas para a área de transferência!');
+        const content = document.querySelector('p').innerText;
+        navigator.clipboard.writeText(content).then(() => {
+            showNotification();
         }).catch(err => {
-            alert('Erro ao copiar as questões.');
+            console.error('Erro ao copiar texto: ', err);
+            alert('Não foi possível copiar o texto. Tente novamente.');
         });
     }
 </script>

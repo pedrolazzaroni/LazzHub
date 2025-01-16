@@ -26,7 +26,7 @@
                 </h2>
                 <form id="perguntaForm" action="{{ route('pergunta.ask') }}" method="POST" class="space-y-6">
                     @csrf
-                    <div class="grid grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
                         <div class="bg-blue-50 shadow-lg p-4 rounded-md"> <!-- Changed to bg-white -->
                             <label for="pergunta" class="block text-sm font-medium text-gray-800">Digite sua pergunta:</label>
                             <input type="text" name="pergunta" id="pergunta" required maxlength="100"

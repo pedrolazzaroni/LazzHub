@@ -10,7 +10,7 @@
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <a href="{{ route('resumo.create') }}" class="bg-indigo-600 overflow-hidden shadow-lg sm:rounded-lg transition-transform transform hover:scale-105 duration-300 flex flex-col items-center block">
                     <div class="p-4 flex flex-col items-center">
-                        <div class="icon-bg p-2 rounded-full">
+                        <div class="icon-bg p-2 rounded-full flex items-center justify-center">
                             <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
@@ -25,7 +25,7 @@
 
                 <a href="{{ route('pergunta.create') }}" class="bg-indigo-600 overflow-hidden shadow-lg sm:rounded-lg transition-transform transform hover:scale-105 duration-300 flex flex-col items-center block">
                     <div class="p-4 flex flex-col items-center">
-                        <div class="icon-bg p-2 rounded-full">
+                        <div class="icon-bg p-2 rounded-full flex items-center justify-center">
                             <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 2a9 9 0 100 18 9 9 0 000-18zm1 13h-2v-2h2v2zm0-4h-2V7h2v4z"/>
                                 <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
@@ -47,7 +47,7 @@
                 <div class="grid grid-cols-1 gap-4">
                     <a href="{{ route('questoes.create') }}" class="bg-indigo-600 overflow-hidden shadow-lg sm:rounded-lg transition-transform transform hover:scale-105 duration-300 flex flex-col items-center block">
                         <div class="p-4 flex flex-col items-center">
-                            <div class="icon-bg p-2 rounded-full">
+                            <div class="icon-bg p-2 rounded-full flex items-center justify-center">
                                 <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                                 </svg>
@@ -66,7 +66,7 @@
                 <div class="grid grid-cols-1 gap-4">
                     <a href="{{ route('resumo.historico') }}" class="bg-indigo-600 overflow-hidden shadow-lg sm:rounded-lg transition-transform transform hover:scale-105 duration-300 flex flex-col items-center block">
                         <div class="p-4 flex flex-col items-center">
-                            <div class="icon-bg p-2 rounded-full">
+                            <div class="icon-bg p-2 rounded-full flex items-center justify-center">
                                 <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>

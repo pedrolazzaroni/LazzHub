@@ -3,13 +3,15 @@
 @section('title', 'Criar Questão')
 
 @section('content')
-<div class="py-12 overflow-hidden"> 
+<div class="py-12 overflow-hidden">
     <div id="loadingModal" class="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity hidden z-50">
         <div class="fixed inset-0 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center">
                 <div class="relative bg-white p-8 rounded-lg shadow-xl transform transition-all">
                     <div class="text-center">
-                        <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
+                        <div class="icon-bg p-2 rounded-full flex items-center justify-center">
+                            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
+                        </div>
                         <h3 class="text-lg font-medium leading-6 text-gray-900 mb-2">Criando sua questão...</h3>
                         <p class="text-sm text-gray-600" id="loadingText">Analisando o conteúdo...</p>
                     </div>
@@ -28,7 +30,7 @@
                 <form action="{{ route('questoes.store') }}" method="POST" class="space-y-6" id="questaoForm">
                     @csrf
 
-                    <div class="grid grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
                         <div class="bg-blue-50 shadow-lg p-4 rounded-md">
                             <div class="w-full">
                                 <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
@@ -57,7 +59,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 mt-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
                         <div class="bg-blue-50 shadow-lg p-4 rounded-md">
                             <label for="tipo" class="block text-sm font-medium text-gray-800">Tipo da Questão</label>
                             <select name="tipo" id="tipo" required
