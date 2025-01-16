@@ -24,7 +24,7 @@
                             </button>
                             <span id="fileName" class="text-sm text-gray-600 ml-2"></span>
                             <label for="profile_picture" class="cursor-pointer ml-auto">
-                                <span class="inline-block h-28 w-28 rounded-full overflow-hidden bg-gray-100" id="profilePicturePreview">
+                                <span class="inline-block h-28 w-28 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center" id="profilePicturePreview">
                                     @if(Auth::user()->profile_picture)
                                         <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="Profile Picture" class="h-full w-full object-cover">
                                     @else
@@ -39,7 +39,7 @@
                         <input type="file" name="profile_picture" id="profile_picture" class="hidden" accept="image/*">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
                         <div class="bg-blue-50 shadow-lg p-3 rounded-md">
                             <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
                             <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" required
@@ -53,7 +53,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 900ms">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 900ms">
                         <div class="bg-blue-50 shadow-lg p-3 rounded-md">
                             <label for="password" class="block text-sm font-medium text-gray-700">Nova Senha</label>
                             <input type="password" name="password" id="password"
