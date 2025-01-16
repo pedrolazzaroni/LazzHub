@@ -14,7 +14,7 @@
                 <form class="space-y-4" action="{{ route('register') }}" method="POST">
                     @csrf
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
                             <input type="text" name="name" id="name" required
@@ -30,7 +30,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
                             <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
                             <input type="password" name="password" id="password" required

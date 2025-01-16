@@ -28,7 +28,7 @@
                 <form action="{{ route('resumo.generate') }}" method="POST" class="space-y-6" id="resumoForm">
                     @csrf
 
-                    <div class="grid grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 500ms">
                         <div class="bg-blue-50 shadow-lg p-4 rounded-md">
                             <div class="w-full">
                                 <label for="materia" class="block text-sm font-medium text-gray-800">Matéria</label>
@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 mt-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 opacity-0 transform translate-y-4 transition-all duration-500" style="transition-delay: 700ms">
                         <div class="bg-blue-50 shadow-lg p-4 rounded-md">
                             <label for="nivel" class="block text-sm font-medium text-gray-800">Nível de Ensino</label>
                             <select name="nivel" id="nivel" required
