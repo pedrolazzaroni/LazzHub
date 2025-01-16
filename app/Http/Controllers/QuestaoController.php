@@ -13,7 +13,7 @@ use App\Services\GeminiService;
 class QuestaoController extends Controller
 {
     protected $geminiService;
-    protected $generatedQuestions = []; 
+    protected $generatedQuestions = [];
     protected $correctAnswerOptions = ['A', 'B', 'C', 'D', 'E'];
     protected $similarityThreshold = 0.7;
 
@@ -111,6 +111,9 @@ class QuestaoController extends Controller
 
         $questoes = Questao::whereIn('id', $idArray)->get();
 
+        if ($questoes->user_id !== Auth::id()) {
+            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para acessar esta pergunta.');
+        }
         if ($questoes->isEmpty()) {
             abort(404, 'Questões não encontradas.');
         }

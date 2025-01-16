@@ -69,9 +69,13 @@ class ResumoController extends Controller
         }
     }
 
-    public function show($id)
-    {
+    public function show($id){
         $resumo = Resumo::findOrFail($id);
+
+        if ($resumo->user_id !== Auth::id()) {
+            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para acessar esta pergunta.');
+        }
+
         return view('resumos.show', compact('resumo'));
     }
 

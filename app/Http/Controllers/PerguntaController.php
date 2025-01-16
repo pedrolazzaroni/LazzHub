@@ -69,6 +69,11 @@ class PerguntaController extends Controller
     public function resultado($id)
     {
         $pergunta = Pergunta::findOrFail($id);
+
+        if ($pergunta->user_id !== Auth::id()) {
+            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para acessar esta pergunta.');
+        }
+
         return view('perguntas.result', ['pergunta' => $pergunta]);
     }
 }
