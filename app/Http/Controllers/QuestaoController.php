@@ -111,11 +111,14 @@ class QuestaoController extends Controller
 
         $questoes = Questao::whereIn('id', $idArray)->get();
 
-        if ($questoes->user_id !== Auth::id()) {
-            return redirect()->route('dashboard')->with('error', 'Você não tem permissão para acessar esta pergunta.');
-        }
         if ($questoes->isEmpty()) {
             abort(404, 'Questões não encontradas.');
+        }
+
+        foreach ($questoes as $questao) {
+            if ($questao->user_id !== Auth::id()) {
+                return redirect()->route('dashboard')->with('error', 'Você não tem permissão para acessar esta pergunta.');
+            }
         }
 
         return view('questoes.show', compact('questoes'));
