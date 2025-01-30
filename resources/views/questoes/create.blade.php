@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const data = await response.json();
-            window.location.href = `/questoes/show/${data.ids.join(',')}`;
+            window.location.href = "{{ route('questoes.show', [':ids']) }}".replace(':ids', data.ids.join(','));
         } catch (error) {
             hideLoadingModal();
             alert(`Erro: ${error.message}`);

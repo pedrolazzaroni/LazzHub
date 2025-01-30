@@ -137,7 +137,7 @@
                 }
 
                 const data = await response.json();
-                window.location.href = `/pergunta/resultado/${data.id}`;
+                window.location.href = "{{ route('pergunta.resultado', [':id']) }}".replace(':id', data.id);
             } catch (error) {
                 hideLoadingModal();
                 alert(`Erro: ${error.message}`);
