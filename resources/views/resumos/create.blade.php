@@ -241,7 +241,7 @@
                 console.log('Prompt gerado:', prompt);
                 const response = await callGeminiAPI(prompt);
 
-                window.location.href = "{{ route('resumo.resultado', [':id']) }}".replace(':id', response.id);
+                window.location.href = "{{ route('resumo.show', [':id']) }}".replace(':id', response.id);
             } catch (error) {
                 hideLoadingModal();
                 alert(`Erro: ${error.message}`);
