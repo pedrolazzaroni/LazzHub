@@ -243,12 +243,9 @@
                 const nivel = document.getElementById('nivel').value;
                 const curso = document.getElementById('curso').value;
 
-                console.log('Dados do formulário:', { materia, conteudo, nivel, curso });
-
                 showLoadingModal();
 
                 const prompt = await generatePrompt(materia, conteudo, nivel, curso);
-                console.log('Prompt gerado:', prompt);
                 const response = await callGeminiAPI(prompt);
 
                 window.location.href = "{{ route('resumo.show', [':id']) }}".replace(':id', response.id);
