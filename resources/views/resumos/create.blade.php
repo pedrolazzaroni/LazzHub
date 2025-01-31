@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 @extends('layouts.app')
 
 @section('title', 'Criar Resumo')
@@ -190,12 +191,16 @@
 
         async function callGeminiAPI(prompt) {
             try {
-                console.log('Enviando prompt:', prompt);
-                const response = await fetch('/api/generate-resume', {
+                const token = document.querySelector('meta[name="csrf-token"]');
+                if (!token) {
+                    throw new Error('CSRF token not found');
+                }
+
+                const response = await fetch('{{ route('resumo.generate') }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        'X-CSRF-TOKEN': token.content
                     },
                     body: JSON.stringify({
                         prompt,
@@ -207,15 +212,20 @@
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('Erro da API:', errorData);
-                    throw new Error(errorData.error || 'Erro ao gerar o resumo');
+                    let errorMessage = 'Erro ao gerar o resumo';
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.error || errorMessage;
+                    } catch (e) {
+                        console.error('Erro ao processar resposta de erro:', e);
+                    }
+                    throw new Error(errorMessage);
                 }
 
                 return await response.json();
             } catch (error) {
-                console.error('Erro detalhado:', error);
-                throw error;
+                console.error('Erro na chamada da API:', error);
+                throw new Error(error.message || 'Erro ao comunicar com o servidor');
             }
         }
 
